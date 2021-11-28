@@ -1,2 +1,5 @@
 node_modules/
-firebase_tools/
+
+*.exe
+*.log
+java-se-8u41-ri/
