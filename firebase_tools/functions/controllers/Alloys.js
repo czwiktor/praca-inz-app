@@ -1,4 +1,4 @@
-const { admin } = require('../scripts/admin');
+const { admin, db } = require('../scripts/admin');
 
 const firebaseApp = require('firebase/app');
 const config = require('../scripts/config')
@@ -8,7 +8,7 @@ firebaseApp.initializeApp(config);
 exports.showAlloys = (req, res) => {
     admin
         .firestore()
-        .collection('Most-popular')
+        .collection('alloys')
         .orderBy('creationDate', 'desc')
         .get()
         .then((query) => {
@@ -37,7 +37,7 @@ exports.addAlloy = (req, res) => {
 
     admin
         .firestore()
-        .collection('Most-popular')
+        .collection('alloys')
         .add(alloy)
         .then((query) => {
             res.json({ message: `Alloy with unique ID = ${query.id} added successfully!` });
@@ -47,7 +47,6 @@ exports.addAlloy = (req, res) => {
             console.error(error)
         });
 }
-
 
 exports.getAlloy = (req, res) => {
     let alloy = {};
@@ -72,6 +71,61 @@ exports.getAlloy = (req, res) => {
             });
 
             return res.json(screamData);
+        })
+        .catch((err) => {
+            console.error(err);
+            res.status(500).json({ error: err.code });
+        })
+}
+
+exports.getAllAlloys = (req, res) => {
+    let alloys = [];
+    db.collection('alloys')
+        .get()
+        .then((querySnapshot) => {
+            querySnapshot.forEach( (doc) => {
+                alloys.push(doc.data());
+            });
+        
+            return res.json(alloys);
+        })
+        .catch((err) => {
+            console.error(err);
+            res.status(500).json({ error: err.code });
+        })
+}
+
+exports.getAllElements= (req, res) => {
+    let elements = {};
+    db.collection('elements')
+        .get()
+        .then( (doc) => {
+            if (!doc.exists) {
+                return res.status(404).json({ error: 'No elements found!'});
+            }
+
+            elements = doc.data();
+        
+            return res.json(elements);
+        })
+        .catch((err) => {
+            console.error(err);
+            res.status(500).json({ error: err.code });
+        })
+}
+
+exports.getAllProperties = (req, res) => {
+    let properties = {};
+    db.collection('mechanical_props')
+        .get()
+        .then( (doc) => {
+            if (!doc.exists) {
+                return res.status(404).json({ error: 'No properties found!'});
+            }
+
+            properties = doc.data();
+        
+            return res.json(properties);
         })
         .catch((err) => {
             console.error(err);

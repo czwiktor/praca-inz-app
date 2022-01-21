@@ -2,12 +2,12 @@ const functions = require('firebase-functions');
 const app  = require('express')();
 
 // Functions imports
-const { showAlloys, addAlloy } = require('./controllers/Alloys');
+const { getAllAlloys, addAlloy } = require('./controllers/Alloys');
 const { register, login, addUserDetails, getUserDetails } = require('./controllers/Users');
 const FBAuth = require('./scripts/auth');
 
 // Show all alloys
-app.get('/show', FBAuth, showAlloys);
+app.post('/show', getAllAlloys);
 
 // Add an alloy
 app.post('/add', FBAuth, addAlloy);

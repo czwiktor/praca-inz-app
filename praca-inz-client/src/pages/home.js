@@ -3,6 +3,7 @@ import axios from 'axios';
 import Grid from '@material-ui/core/Grid';
 import Item from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
+import Alloy from '../components/Alloy';
 
 class home extends Component {
     state = {
@@ -20,22 +21,22 @@ class home extends Component {
     }
 
     render() {
-        let alloysMarkup = this.state.alloys ? (this.state.alloys.map(alloy => <p> {alloy.name} </p>))  : <p> Loading.. </p>;
+        let alloysMarkup = this.state.alloys ? (this.state.alloys.map((alloy) => <Alloy alloy={alloy} /> ))  : <p> Loading.. </p>;
 
         return (
             <Box sx={{ flexGrow: 1 }}>
                 <Grid container spacing={2}>
-                    <Grid item xs={8}>
-                        <Item>xs=8 {alloysMarkup}</Item>
+                    <Grid item xs={12}>
+                        <Item> {alloysMarkup} </Item>
                     </Grid>
-                    <Grid item xs={4}>
-                        <Item>xs=4 {alloysMarkup}</Item>
+                    <Grid item xs={12}>
+                        <Item> {alloysMarkup} </Item>
                     </Grid>
-                    <Grid item xs={4}>
-                        <Item>xs=4 {alloysMarkup}</Item>
+                    <Grid item xs={12}>
+                        <Item> {alloysMarkup} </Item>
                     </Grid>
-                    <Grid item xs={8}>
-                        <Item>xs=8 {alloysMarkup}</Item>
+                    <Grid item xs={12}>
+                        <Item> {alloysMarkup} </Item>
                     </Grid>
                 </Grid>
             </Box>

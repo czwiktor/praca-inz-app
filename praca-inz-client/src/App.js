@@ -37,20 +37,20 @@ class App extends Component {
   render() {
     return (
       <MuiThemeProvider theme={theme}>
-         <div className="App">
-        <Router>
-        <Navigation />
-          <div className="main">
-            <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/login" element={<Login  />} />
-                <Route path="/register" element={<Register  />} />
-                <Route path="/search" element={<Search  />} />
-                <Route path="/add" element={<Add  />} />
-            </Routes>
-          </div>
-        </Router>
-      </div>
+        <div className="App">
+          <Router>
+            <Navigation />
+              <div className="main">
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/login" element={<Login  />} />
+                    <Route path="/register" element={<Register  />} />
+                    <Route path="/search" element={<Search  />} />
+                    <Route path="/add" element={<Add  />} />
+                </Routes>
+              </div>
+          </Router>
+        </div>
       </MuiThemeProvider>
     );
   }
