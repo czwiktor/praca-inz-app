@@ -32,7 +32,10 @@ exports.addAlloy = (req, res) => {
         id: req.body.id,
         name: req.body.name,
         creationDate: new Date().toISOString(),
-        addedBy: req.body.author
+        group: req.body.group,
+        addedBy: req.body.author,
+        composition: req.body.composition,
+        properties: req.body.props
     };
 
     admin
@@ -40,6 +43,7 @@ exports.addAlloy = (req, res) => {
         .collection('alloys')
         .add(alloy)
         .then((query) => {
+            query.id = req.body.name;
             res.json({ message: `Alloy with unique ID = ${query.id} added successfully!` });
         })
         .catch((error) => {
