@@ -19,22 +19,22 @@ const styles = {
 
 class Alloy extends Component {
     render() {
-        const { classes, alloy: {name, properties, elements, description, alloyImage } } = this.props;
+        const { classes, alloy: {name, props, composition, group} } = this.props;
 
         return (
             <Card sx={{ maxWidth: 320}} className={classes.container}>
-                <CardMedia
+                {/* <CardMedia
                     component="img"
                     alt="alloy image"
                     height="140"
                     image={alloyImage}
-                />
+                /> */}
                 <CardContent class={classes.content}>
                     <Typography gutterBottom variant="h4" component="div">
-                        {name}
+                        {name} {group}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                        {description} {properties} {elements}
+                        {props}  {composition}
                     </Typography>
                 </CardContent>
                 <CardActions>

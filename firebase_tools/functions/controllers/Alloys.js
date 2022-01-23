@@ -5,42 +5,123 @@ const config = require('../scripts/config')
 
 firebaseApp.initializeApp(config);
 
-exports.showAlloys = (req, res) => {
-    admin
-        .firestore()
-        .collection('alloys')
+class Alloy {
+    constructor (data) {
+        this.id = data.alloy_id;
+        this.name = data.alloy_name;
+        this.date = data.alloy_date;
+        this.group = data.alloys_group;
+        this.author = data.alloy_author;
+        this.composition = {
+            Al: data.composition.Al,
+            Cu: data.composition.Cu,
+            Fe: data.composition.Fe,
+            Mg: data.composition.Mg,
+            Ni: data.composition.Ni,
+            Si: data.composition.Si,
+            Zn: data.composition.Zn
+        }
+        this.props = {
+            R02: data.properties['R0,2'],
+            Rm: data.properties.Rm,
+            A5: data.properties['A5'],
+            HB: data.properties['HB']
+        }
+    }
+}
+
+class compQuery {
+    constructor (query) {
+        this.Al = {
+            min: query.Al.min,
+            max: query.Al.max
+        };
+        this.Cu = {
+            min: query.Cu.min,
+            max: query.Cu.max
+        };
+        this.Fe = {
+            min: query.Fe.min,
+            max: query.Fe.max
+        };
+        this.Mg = {
+            min: query.Mg.min,
+            max: query.Mg.max
+        };
+        this.Ni = {
+            min: query.Ni.min,
+            max: query.Ni.max
+        };
+        this.Si = {
+            min: query.Si.min,
+            max: query.Si.max
+        };
+        this.Zn = {
+            min: query.Zn.min,
+            max: query.Zn.max
+        };
+    }
+}
+
+class propsQuery {
+    constructor (query) {
+        this['R0,2'] = {
+            min: query['R0,2'].min,
+            max: query['R0,2'].max
+        };
+        this['Rm'] = {
+            min: query['Rm'].min,
+            max: query['Rm'].max
+        };
+        this['A5'] = {
+            min: query['A5'].min,
+            max: query['A5'].max
+        };
+        this['HB'] = {
+            min: query['HB'].min,
+            max: query['HB'].max
+        };
+    }
+}
+
+exports.queryAlloys = (req, res) => {
+    const queries = {
+        group: req.body.group,
+        composition: req.body.composition,
+        props: req.body.props
+    };
+
+    db.collection('alloys')
         .orderBy('creationDate', 'desc')
+        .where('alloy_id', '==',  )
         .get()
         .then((query) => {
-            let alloys = [];
+            let alloy = {};
+            let data;
             query.forEach(doc => {
-                alloys.push({
-                    alloyId: doc.id,
-                    alloyName: doc.data().name,
-                    creationDate: doc.data().creationDate,
-                    addedBy: doc.data().author
-                });
+                data = doc.data() 
+                alloy = new Alloy(data);
             });
 
-            return res.json(alloys);
+            return res.json(alloy);
         })
         .catch((error) => console.error(error));
 }
 
 exports.addAlloy = (req, res) => {
-    const alloy = {
+    const data = {
         id: req.body.id,
         name: req.body.name,
-        creationDate: new Date().toISOString(),
         group: req.body.group,
+        creationDate: new Date().toISOString(),
         addedBy: req.body.author,
         composition: req.body.composition,
         properties: req.body.props
     };
 
-    admin
-        .firestore()
-        .collection('alloys')
+    const alloy = new Alloy(data);
+
+    db.collection('alloys')
         .add(alloy)
         .then((query) => {
             query.id = req.body.name;
@@ -54,7 +135,8 @@ exports.addAlloy = (req, res) => {
 
 exports.getAlloy = (req, res) => {
     let alloy = {};
-    db.doc(`/alloys/${req.params.alloyId}`).get()
+    db.doc(`/alloys/${req.params.alloyId}`)
+        .get()
         .then( (doc) => {
             if (!doc.exists) {
                 return res.status(404).json({ error: 'Alloy not found!'});
@@ -84,11 +166,13 @@ exports.getAlloy = (req, res) => {
 
 exports.getAllAlloys = (req, res) => {
     let alloys = [];
+    let data = {};
     db.collection('alloys')
         .get()
         .then((querySnapshot) => {
             querySnapshot.forEach( (doc) => {
-                alloys.push(doc.data());
+                data = doc.data();
+                alloys.push(new Alloy(data));
             });
         
             return res.json(alloys);
