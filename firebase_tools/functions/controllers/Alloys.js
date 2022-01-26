@@ -67,7 +67,7 @@ class propsQuery {
     constructor (query) {
         this['R0,2'] = {
             min: query['R0,2'].min,
-            max: query['R0,2'].max
+            max: query['R0,2'].max 
         };
         this['Rm'] = {
             min: query['Rm'].min,
@@ -91,19 +91,44 @@ exports.queryAlloys = (req, res) => {
         props: req.body.props
     };
 
+    let index = 0
+    const querySettings = Object.keys(queries);
+    let result = [];
+
     db.collection('alloys')
         .orderBy('creationDate', 'desc')
-        .where('alloy_id', '==',  )
+        .where(querySettings[index], 'in', querySettings[index])
         .get()
         .then((query) => {
+            index++
             let alloy = {};
             let data;
+            let property;
             query.forEach(doc => {
                 data = doc.data() 
                 alloy = new Alloy(data);
-            });
 
-            return res.json(alloy);
+                for (let j = index; j < querySettings.length; j++) {
+                    for (property in alloy.querySettings[j]) {
+                        if (!querySettings.min && !querySettings.max) {
+                            if (valueOf(property) == querySettings[j]) {
+                                result.push(alloy);
+                                j++;
+                                break;
+                            }
+                        }
+                    
+                        if (valueOf(property) >= querySettings[j].min && valueOf(property) <= querySettings[j].max) {
+                            result.push(alloy);
+                            j++;
+                            break;
+                        }
+                    }
+                }
+                
+            })
+
+            return res.json(result);
         })
         .catch((error) => console.error(error));
 }
