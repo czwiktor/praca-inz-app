@@ -2,7 +2,7 @@ const functions = require('firebase-functions');
 const app  = require('express')();
 
 // Functions imports
-const { getAllAlloys, addAlloy } = require('./controllers/Alloys');
+const { getAllAlloys, addAlloy, addAllAlloys } = require('./controllers/Alloys');
 const { register, login, addUserDetails, getUserDetails } = require('./controllers/Users');
 const FBAuth = require('./scripts/auth');
 
@@ -10,7 +10,10 @@ const FBAuth = require('./scripts/auth');
 app.post('/show', getAllAlloys);
 
 // Add an alloy
-app.post('/add', FBAuth, addAlloy);
+app.post('/add', addAlloy);
+
+// Add an alloy
+app.post('/addAll', addAllAlloys);
 
 // Add user details
 app.post('/addDetails', FBAuth, addUserDetails);
