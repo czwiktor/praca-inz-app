@@ -1,7 +1,8 @@
 const { admin, db } = require('../scripts/admin');
 
 const firebaseApp = require('firebase/app');
-const config = require('../scripts/config')
+const config = require('../scripts/config');
+const cors = require('cors')({origin: true});
 
 firebaseApp.initializeApp(config);
 
@@ -715,10 +716,10 @@ class Alloy {
             Others: data.composition.inne
         }
         this.props = {
-            R02: data.properties['R0,2'],
-            Rm: data.properties.Rm,
-            A5: data.properties['A5'],
-            HB: data.properties['HB']
+            R02: data.props['R0,2'],
+            Rm: data.props['Rm min'],
+            A5: data.props['A5 min'],
+            HB: data.props['HB min']
         }
     }
 }
@@ -777,54 +778,56 @@ class propsQuery {
     }
 }
 
-exports.queryAlloys = (req, res) => {
-    const queries = {
-        group: req.body.group,
-        composition: req.body.composition,
-        props: req.body.props
-    };
-
-    let index = 0
-    const querySettings = Object.keys(queries);
-    let result = [];
-
-    db.collection('alloys')
-        .orderBy('creationDate', 'desc')
-        .where(querySettings[index], 'in', querySettings[index])
-        .get()
-        .then((query) => {
-            index++
-            let alloy = {};
-            let data;
-            let property;
-            query.forEach(doc => {
-                data = doc.data() 
-                alloy = new Alloy(data);
-
-                for (let j = index; j < querySettings.length; j++) {
-                    for (property in alloy.querySettings[j]) {
-                        if (!querySettings.min && !querySettings.max) {
-                            if (valueOf(property) == querySettings[j]) {
+exports.queryAlloys = functions.https.onRequest((req, res) => {
+    cors(req, res, () => {
+        const queries = {
+            group: req.body.group,
+            composition: req.body.composition,
+            props: req.body.props
+        };
+    
+        let index = 0
+        const querySettings = Object.keys(queries);
+        let result = [];
+    
+        db.collection('alloys')
+            .orderBy('creationDate', 'desc')
+            .where(querySettings[index], 'in', querySettings[index])
+            .get()
+            .then((query) => {
+                index++
+                let alloy = {};
+                let data;
+                let property;
+                query.forEach(doc => {
+                    data = doc.data() 
+                    alloy = new Alloy(data);
+    
+                    for (let j = index; j < querySettings.length; j++) {
+                        for (property in alloy.querySettings[j]) {
+                            if (!querySettings.min && !querySettings.max) {
+                                if (valueOf(property) == querySettings[j]) {
+                                    result.push(alloy);
+                                    j++;
+                                    break;
+                                }
+                            }
+                        
+                            if (valueOf(property) >= querySettings[j].min && valueOf(property) <= querySettings[j].max) {
                                 result.push(alloy);
                                 j++;
                                 break;
                             }
                         }
-                    
-                        if (valueOf(property) >= querySettings[j].min && valueOf(property) <= querySettings[j].max) {
-                            result.push(alloy);
-                            j++;
-                            break;
-                        }
                     }
-                }
-                
+                    
+                })
+    
+                return res.json(result);
             })
-
-            return res.json(result);
-        })
-        .catch((error) => console.error(error));
-}
+            .catch((error) => console.error(error));
+    })
+});
 
 exports.addAlloy = (req, res) => {
     class Alloy {
@@ -845,10 +848,10 @@ exports.addAlloy = (req, res) => {
                 Others: data.composition.inne
             }
             this.props = {
-                R02: data.properties['R0,2'],
-                Rm: data.properties.Rm,
-                A5: data.properties['A5'],
-                HB: data.properties['HB']
+                R02: data.props['R0,2'],
+                Rm: data.props.Rm,
+                A5: data.props['A5'],
+                HB: data.props['HB']
             }
         }
     }
@@ -943,24 +946,26 @@ exports.getAlloy = (req, res) => {
         })
 }
 
-exports.getAllAlloys = (req, res) => {
-    let alloys = [];
-    let data = {};
-    db.collection('alloys')
-        .get()
-        .then((querySnapshot) => {
-            querySnapshot.forEach( (doc) => {
-                data = doc.data();
-                alloys.push(new Alloy(data));
-            });
-        
-            return res.json(alloys);
-        })
-        .catch((err) => {
-            console.error(err);
-            res.status(500).json({ error: err.code });
-        })
-}
+exports.getAllAlloys = functions.https.onRequest((req, res) => {
+    cors(req, res, () => {
+        let alloys = [];
+        let data = {};
+        db.collection('alloys')
+            .get()
+            .then((querySnapshot) => {
+                querySnapshot.forEach( (doc) => {
+                    data = doc.data();
+                    alloys.push(new Alloy(data));
+                });
+            
+                return res.json(alloys);
+            })
+            .catch((err) => {
+                console.error(err);
+                res.status(500).json({ error: err.code });
+            })
+    })
+});
 
 exports.getAllElements= (req, res) => {
     let elements = {};

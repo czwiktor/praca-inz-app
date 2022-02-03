@@ -10,7 +10,8 @@ class home extends Component {
         alloys: null
     }
     componentDidMount () {
-        axios.get('/show')
+        axios
+            .get('/show')
             .then( res => {
                 console.log(res.data);
                 this.setState({
@@ -21,7 +22,7 @@ class home extends Component {
     }
 
     render() {
-        let alloysMarkup = this.state.alloys ? (this.state.alloys.map((alloy) => <Alloy alloy={alloy} /> ))  : <p> Loading.. </p>;
+        let alloysMarkup = this.state.alloys ? (this.state.alloys.map((alloy) => <Alloy key={alloy.alloy_id} alloy={alloy} /> ))  : <p> Loading.. </p>;
 
         return (
             <Box sx={{ flexGrow: 1 }}>

@@ -7,13 +7,13 @@ const { register, login, addUserDetails, getUserDetails } = require('./controlle
 const FBAuth = require('./scripts/auth');
 
 // Show all alloys
-app.post('/show', getAllAlloys);
+app.post('/show', FBAuth, getAllAlloys);
 
 // Add an alloy
-app.post('/add', addAlloy);
+app.post('/add', FBAuth, addAlloy);
 
 // Add an alloy
-app.post('/addAll', addAllAlloys);
+app.post('/addAll', FBAuth, addAllAlloys);
 
 // Add user details
 app.post('/addDetails', FBAuth, addUserDetails);
