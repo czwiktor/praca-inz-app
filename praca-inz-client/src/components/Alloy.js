@@ -1,48 +1,67 @@
 import React, { Component} from "react";
-import { withStyles } from "@material-ui/styles";
 import { Link } from "react-router-dom";
 import { Button } from "@material-ui/core";
 import { Card } from "@material-ui/core";
 import { CardActions } from "@material-ui/core";
 import { CardContent } from "@material-ui/core";
-import { CardMedia } from "@material-ui/core";
 import { Typography } from "@material-ui/core";
 
+import withStyles from '@material-ui/core/styles/withStyles';
+import PropTypes from 'prop-types';
+
+// Redux
+import { connect } from 'react-redux';
+
 const styles = {
-    container: {
-        display: 'flex',
-        marginBottom: 60,
-        padding: 16
-    }
-    
-}
+  card: {
+    position: 'relative',
+    display: 'flex',
+    marginBottom: 20
+  },
+  image: {
+    minWidth: 200
+  },
+  content: {
+    padding: 25,
+    objectFit: 'cover'
+  }
+};
+
+const classes = {
+    container: 'card-item',
+    content: 'card-item__content',
+    button: 'card-item__button'
+};
 
 class Alloy extends Component {
     render() {
-        const { classes, alloy: {name, props, composition, group} } = this.props;
+        const { alloy: {id, name, group} } = this.props;
 
         return (
-            <Card sx={{ maxWidth: 320}} className={classes.container}>
-                {/* <CardMedia
-                    component="img"
-                    alt="alloy image"
-                    height="140"
-                    image={alloyImage}
-                /> */}
-                <CardContent class={classes.content}>
+            <Card xs={{ maxWidth: 320}} sm={{maxWidth: 420}} md={{ maxWidth: 768}} className={classes.container}>
+                <CardContent className={classes.content}>
                     <Typography gutterBottom variant="h4" component="div">
-                        {name} {group}
+                        {name}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                        {props}  {composition}
+                        {group}
                     </Typography>
                 </CardContent>
                 <CardActions>
-                    <Button size="medium" component={Link} to={`/getDetails/${name}`}> Sprawdź </Button>
+                    <Button className={classes.button} size="large" component={Link} to={`/showDetails/${id}`}> Sprawdź </Button>
                 </CardActions>
             </Card>
         )
     }
 }
 
-export default withStyles(styles)(Alloy)
+Alloy.propTypes = {
+  alloy: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired
+};
+
+const mapStateToProps = (state) => ({
+  data: state.data
+});
+
+export default connect(mapStateToProps)(withStyles(styles)(Alloy));

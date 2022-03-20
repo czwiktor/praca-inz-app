@@ -2,7 +2,6 @@ const { admin, db } = require('../scripts/admin');
 
 const firebaseApp = require('firebase/app');
 const config = require('../scripts/config');
-const cors = require('cors')({origin: true});
 
 firebaseApp.initializeApp(config);
 
@@ -778,56 +777,112 @@ class propsQuery {
     }
 }
 
-exports.queryAlloys = functions.https.onRequest((req, res) => {
-    cors(req, res, () => {
-        const queries = {
-            group: req.body.group,
-            composition: req.body.composition,
-            props: req.body.props
-        };
-    
-        let index = 0
-        const querySettings = Object.keys(queries);
-        let result = [];
-    
-        db.collection('alloys')
-            .orderBy('creationDate', 'desc')
-            .where(querySettings[index], 'in', querySettings[index])
-            .get()
-            .then((query) => {
-                index++
-                let alloy = {};
-                let data;
-                let property;
-                query.forEach(doc => {
-                    data = doc.data() 
-                    alloy = new Alloy(data);
-    
-                    for (let j = index; j < querySettings.length; j++) {
-                        for (property in alloy.querySettings[j]) {
-                            if (!querySettings.min && !querySettings.max) {
-                                if (valueOf(property) == querySettings[j]) {
-                                    result.push(alloy);
-                                    j++;
-                                    break;
-                                }
-                            }
-                        
-                            if (valueOf(property) >= querySettings[j].min && valueOf(property) <= querySettings[j].max) {
-                                result.push(alloy);
-                                j++;
-                                break;
-                            }
-                        }
-                    }
-                    
-                })
-    
-                return res.json(result);
-            })
-            .catch((error) => console.error(error));
+const resolveQueries = (alloys, compQuery, propQuery) => {
+    let result = [];
+    let resultsSecond = [];
+    let queryName, alloyProp, queryProp, composition, props;
+    let resultsFirst = [];
+    let alloy;
+
+    alloys.forEach((data) => {
+        alloy = new Alloy(data.data());
+        composition = alloy.composition;
+        props = alloy.props;
+
+        if (compQuery) {
+            propsNames = Object.keys(compQuery);
+            let flag = true;
+
+            for (let i = 0; i < propsNames.length; i++) {
+                queryName = propsNames[i];
+                alloyProp = composition[queryName];
+                queryProp = compQuery[queryName];
+                if (alloyProp < queryProp['min'] || alloyProp > queryProp['max']) {
+                   flag = false;
+                }
+            }
+
+            if (flag) {
+                resultsFirst.push(alloy);
+            }
+        }
+
+        if (propQuery) {
+            propsNames = Object.keys(propQuery);
+            let flag = true;
+
+            for (let j = 0; j < propsNames.length; j++) {
+                queryName = propsNames[j];
+                alloyProp = props[queryName];
+                queryProp = propQuery[queryName];
+            
+                if (alloyProp < queryProp['min'] || alloyProp > queryProp['max']) {
+                    flag = false;
+                }
+
+                if (flag) {
+                    resultsSecond.push(alloy);
+                }
+            }
+        }
     })
-});
+
+    result = resultsFirst;
+
+    console.log(resultsSecond);
+
+    if (propQuery) {
+        result = resultsFirst.filter(x => resultsSecond.includes(x));
+    }
+
+    return result;
+}
+
+exports.queryAlloys = (req, res) => {
+    const queries = {
+        group: req.body.group,
+        composition: req.body.composition,
+        props: req.body.properties
+    };
+
+    let result = [];
+    const groupQuery = queries.group;
+    const compQuery = queries.composition;
+    const propQuery = queries.props;
+
+    // if (groupQuery && groupQuery.length) {
+    //     queriedByGroup = true;
+    //     db
+    //         .collection('alloys')
+    //         .where('alloy_group', 'in', groupQuery)
+    //         .get()
+    //         .then((query) => {
+    //             let alloys= query.data();
+    //             result = resolveQueries(alloys, compQuery, propQuery);
+    //             return res.json(result);
+    //         })
+    //         .catch((error) => console.error(error));
+    // }
+
+    db
+        .collection('alloys')
+        .get()
+        .then((query) => {
+            let alloys = query;
+            if (!compQuery && !propQuery) {
+                let alloy;
+                query.forEach((doc) => {
+                    alloy = new Alloy(doc.data());
+                    result.push(alloy )
+                })
+            } else {
+                result = resolveQueries(alloys, compQuery, propQuery);
+            }
+        
+            return res.json(result);
+        })
+        .catch((error) => console.error(error));
+};
 
 exports.addAlloy = (req, res) => {
     class Alloy {
@@ -890,30 +945,6 @@ exports.addAllAlloys = (req, res) => {
         .set(doc);
     })
 }
-    // req.forEach((entry) => {
-    //     // const data = {
-    //     //     id: entry.body.id,
-    //     //     name: entry.body.name,
-    //     //     group: entry.body.group,
-    //     //     creationDate: new Date().toISOString(),
-    //     //     addedBy: entry.body.author,
-    //     //     composition: entry.body.composition,
-    //     //     properties: entry.body.props
-    //     // };
-     
-
-    // db.collection('alloys')
-    //     .add(alloy)
-    //     .then((query) => {
-    //         query.id = req.body.name;
-    //         res.json({ message: `Alloy with unique ID = ${query.id} added successfully!` });
-    //     })
-    //     .catch((error) => {
-    //         res.status(500).json({ error: 'Oops, something went wrong! :(' })
-    //         console.error(error)
-    //     });
-    // })
-
 
 exports.getAlloy = (req, res) => {
     let alloy = {};
@@ -946,11 +977,11 @@ exports.getAlloy = (req, res) => {
         })
 }
 
-exports.getAllAlloys = functions.https.onRequest((req, res) => {
-    cors(req, res, () => {
+exports.getAllAlloys = (req, res) => {
         let alloys = [];
         let data = {};
-        db.collection('alloys')
+        db
+            .collection('alloys')
             .get()
             .then((querySnapshot) => {
                 querySnapshot.forEach( (doc) => {
@@ -963,20 +994,19 @@ exports.getAllAlloys = functions.https.onRequest((req, res) => {
             .catch((err) => {
                 console.error(err);
                 res.status(500).json({ error: err.code });
-            })
-    })
-});
+            });
+    }
 
-exports.getAllElements= (req, res) => {
-    let elements = {};
-    db.collection('elements')
+exports.getAllElements = (req, res) => {
+    let elements = [];
+    db  
+        .collection('elements')
         .get()
-        .then( (doc) => {
-            if (!doc.exists) {
-                return res.status(404).json({ error: 'No elements found!'});
-            }
-
-            elements = doc.data();
+        .then((querySnapshot) => { 
+            querySnapshot.forEach((doc) => {
+                data = doc.data();
+                elements.push(data);
+            });
         
             return res.json(elements);
         })
@@ -987,15 +1017,15 @@ exports.getAllElements= (req, res) => {
 }
 
 exports.getAllProperties = (req, res) => {
-    let properties = {};
-    db.collection('mechanical_props')
+    let properties = [];
+    db
+        .collection('mechanical_props')
         .get()
-        .then( (doc) => {
-            if (!doc.exists) {
-                return res.status(404).json({ error: 'No properties found!'});
-            }
-
-            properties = doc.data();
+        .then((querySnapshot) => { 
+            querySnapshot.forEach((doc) => {
+                data = doc.data();
+                properties.push(data);
+            });
         
             return res.json(properties);
         })

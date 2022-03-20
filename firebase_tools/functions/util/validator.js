@@ -18,6 +18,7 @@ const isEmpty = (string) => {
 }
 
 exports.validateRegistrationData = (userData) => {
+    let errors = {};
     if (isEmpty(userData.email)) {
         errors.email = 'Must not be empty!'
     } else if (!isEmail(userData.email)) {
@@ -39,6 +40,7 @@ exports.validateRegistrationData = (userData) => {
 }
 
 exports.validateLoginData = (userData) => {
+    let errors = {};
     if (isEmpty(userData.email)) {
         errors.email = 'Provide email address';
     }
@@ -49,13 +51,12 @@ exports.validateLoginData = (userData) => {
 
     return {
         errors,
-        vaild: Object.keys(errors).length > 0 ? false : true
+        valid: Object.keys(errors).length > 0 ? false : true
     }
 }
 
 exports.reduceUserDetails = (data) => {
     let userDetails = {};
-
     if (!isEmpty(data.name.trim())) {
         userDetails.name = data.name;
     }

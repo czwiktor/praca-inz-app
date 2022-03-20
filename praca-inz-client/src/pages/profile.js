@@ -4,6 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Item from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Alloy from '../components/Alloy';
+import Skeleton from '../components/Skeleton';
 
 class home extends Component {
     state = {
@@ -22,7 +23,7 @@ class home extends Component {
     }
 
     render() {
-        let alloysMarkup = this.state.alloys ? (this.state.alloys.map((alloy) => <Alloy key={alloy.alloy_id} alloy={alloy} /> ))  : <p> Loading.. </p>;
+        let alloysMarkup = this.state.alloys ? (this.state.alloys.map((alloy) => <Alloy key={alloy.alloy_id} alloy={alloy} /> ))  : <Skeleton /> ;
 
         return (
             <Box sx={{ flexGrow: 1 }}>

@@ -1,48 +1,93 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
-import Item from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import Alloy from '../components/Alloy';
+import Slider from '@mui/material/Slider';
+import Skeleton from '../components/Skeleton';
 
-class home extends Component {
+import { connect } from 'react-redux';
+import { getSearchedAlloys, getProps } from '../redux/actions/dataActions';
+import { withStyles } from '@material-ui/core';
+import { MultiSelectUnstyled } from '@mui/base/SelectUnstyled';
+
+const styles = (theme) => ({
+    ...theme.spreadIt
+});
+
+function valuetext(value) {
+    return `${value}`;
+}
+  
+export function RangeSlider(prop) {
+    const name = prop.prop_name;
+    const [value, setValue] = React.useState([0, 500]);
+  
+    const handleChange = (event, newValue) => {
+      setValue(newValue);
+    };
+  
+    return (
+      <Box sx={{ width: 300 }}>
+        <Slider
+          getAriaLabel={() => `${name}`}
+          value={value}
+          onChange={handleChange}
+          valueLabelDisplay="yes"
+          getAriaValueText={valuetext}
+        />
+      </Box>
+    );
+}
+
+class search extends Component {
     state = {
-        alloys: null
+        alloys: null,
+        props: null
     }
+
     componentDidMount () {
-        axios
-            .get('/show')
-            .then( res => {
-                console.log(res.data);
-                this.setState({
-                    alloys: res.data
-                });
-            })
-            .catch(err => console.log(err));
+        this.props.getSearchedAlloys();
+        this.props.getProps();
     }
 
     render() {
-        let alloysMarkup = this.state.alloys ? (this.state.alloys.map((alloy) => <Alloy key={alloy.alloy_id} alloy={alloy} /> ))  : <p> Loading.. </p>;
+        console.log(this);
+        console.log(this.props);
+        const { alloys, loading1} = this.props.alloys;
+        const { propses, loading2} = this.props.propses;
+
+        let alloysMarkup  = !loading1 ? (
+          alloys.map((alloy) => <Grid item xs={6} md={6} lg={4}> <Alloy key={alloy.id} alloy={alloy} /> </Grid> )
+        ) : ( <Skeleton />  );
+
+        let propsMarkup  = !loading2 ? (
+            propses.map((prop) => <Grid item xs={6} md={6} lg={8}> <RangeSlider key={prop.id} prop={prop} /> </Grid> )
+        ) : (  <Skeleton /> );
 
         return (
             <Box sx={{ flexGrow: 1 }}>
                 <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                        <Item> {alloysMarkup} </Item>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Item> {alloysMarkup} </Item>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Item> {alloysMarkup} </Item>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Item> {alloysMarkup} </Item>
-                    </Grid>
+                    {propsMarkup}
+                </Grid>
+                <Grid container spacing={2}>
+                    {alloysMarkup}
                 </Grid>
             </Box>
         );
     }
 }
 
-export default home;
+search.propTypes = {
+    getProps: PropTypes.func.isRequired,
+    getSearchedAlloys: PropTypes.func.isRequired,
+    propses: PropTypes.object.isRequired,
+    alloys: PropTypes.object.isRequired
+};
+
+const mapStateToProps = (state) => ({
+    propses: state.propses,
+    alloys: state.alloys
+});
+
+export default connect( mapStateToProps, { getProps, getSearchedAlloys }) (withStyles(styles) (search));

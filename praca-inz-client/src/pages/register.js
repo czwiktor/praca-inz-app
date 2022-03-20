@@ -1,48 +1,168 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import withStyles from '@material-ui/core/styles/withStyles';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+
+// MUI Stuff
 import Grid from '@material-ui/core/Grid';
-import Item from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
-import Alloy from '../components/Alloy';
+import Typography from '@material-ui/core/Typography';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
+// Redux stuff
+import { connect } from 'react-redux';
+import { signupUser } from '../redux/actions/userActions';
 
-class home extends Component {
-    state = {
-        alloys: null
-    }
-    componentDidMount () {
-        axios
-            .get('/show')
-            .then( res => {
-                console.log(res.data);
-                this.setState({
-                    alloys: res.data
-                });
-            })
-            .catch(err => console.log(err));
-    }
+const styles = (theme) => ({
+  ...theme.spreadIt
+});
 
-    render() {
-        let alloysMarkup = this.state.alloys ? (this.state.alloys.map((alloy) => <Alloy key={alloy.alloy_id} alloy={alloy} /> ))  : <p> Loading.. </p>;
+class signup extends Component {
+  constructor() {
+    super();
+    this.state = {
+      email: '',
+      password: '',
+      confirmPassword: '',
+      name: '',
+      errors: {}
+    };
+  };
 
-        return (
-            <Box sx={{ flexGrow: 1 }}>
-                <Grid container spacing={2}>
-                    <Grid item xs={12}>
-                        <Item> {alloysMarkup} </Item>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Item> {alloysMarkup} </Item>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Item> {alloysMarkup} </Item>
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Item> {alloysMarkup} </Item>
-                    </Grid>
-                </Grid>
-            </Box>
-        );
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.UI.errors) {
+      this.setState({ errors: nextProps.UI.errors });
     }
+  };
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+    
+    this.setState({
+      loading: true
+    });
+
+    const newUserData = {
+      email: this.state.email,
+      password: this.state.password,
+      confirmPassword: this.state.confirmPassword,
+      name: this.state.name
+    };
+
+    this.props.signupUser(newUserData, this.props.history);
+  };
+
+  handleChange = (event) => {
+    this.setState({
+      [event.target.name]: event.target.value
+    });
+  };
+
+  render() {
+    const {
+      classes,
+      UI: { loading }
+    } = this.props;
+    const { errors } = this.state;
+
+    return (
+      <Grid container className={classes.form}>
+        <Grid item sm />
+        <Grid item sm>
+          <Typography variant="h2" className={classes.pageTitle}>
+            Rejestracja
+          </Typography>
+          <form noValidate onSubmit={this.handleSubmit}>
+            <TextField
+              id="email"
+              name="email"
+              type="email"
+              label="Email"
+              className={classes.textField}
+              helperText={errors.email}
+              error={errors.email ? true : false}
+              value={this.state.email}
+              onChange={this.handleChange}
+              fullWidth
+            />
+            <TextField
+              id="password"
+              name="password"
+              type="password"
+              label="Hasło"
+              className={classes.textField}
+              helperText={errors.password}
+              error={errors.password ? true : false}
+              value={this.state.password}
+              onChange={this.handleChange}
+              fullWidth
+            />
+            <TextField
+              id="confirmPassword"
+              name="confirmPassword"
+              type="password"
+              label="Potwierdź hasło"
+              className={classes.textField}
+              helperText={errors.confirmPassword}
+              error={errors.confirmPassword ? true : false}
+              value={this.state.confirmPassword}
+              onChange={this.handleChange}
+              fullWidth
+            />
+            <TextField
+              id="name"
+              name="name"
+              type="text"
+              label="Nazwa"
+              className={classes.textField}
+              helperText={errors.name}
+              error={errors.name ? true : false}
+              value={this.state.name}
+              onChange={this.handleChange}
+              fullWidth
+            />
+            {errors.general && (
+              <Typography variant="body2" className={classes.customError}>
+                {errors.general}
+              </Typography>
+            )}
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              className={classes.button}
+              disabled={loading}
+            >
+              Rejestracja
+              {loading && (
+                <CircularProgress size={30} className={classes.progress} />
+              )}
+            </Button>
+            <br />
+            <small>
+              Jeśli posiadasz już konto ? Zaloguj się <Link to="/login"> tutaj</Link>
+            </small>
+          </form>
+        </Grid>
+        <Grid item sm />
+      </Grid>
+    );
+  }
 }
 
-export default home;
+signup.propTypes = {
+  classes: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
+  UI: PropTypes.object.isRequired,
+  signupUser: PropTypes.func.isRequired
+};
+
+const mapStateToProps = (state) => ({
+  user: state.user,
+  UI: state.UI
+});
+
+export default connect(
+  mapStateToProps,
+  { signupUser }
+)(withStyles(styles)(signup));

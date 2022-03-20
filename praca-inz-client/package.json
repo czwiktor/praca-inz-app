@@ -3,17 +3,25 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@emotion/react": "^11.8.2",
+    "@emotion/styled": "^11.8.1",
     "@material-ui/core": "^4.12.3",
+    "@mui/icons-material": "^5.5.1",
+    "@mui/material": "^5.5.1",
     "@testing-library/jest-dom": "^5.15.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
     "axios": "^0.24.0",
+    "gyp": "^0.5.0",
+    "jwt-decode": "^3.1.2",
+    "node-sass": "^4.14.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-redux": "^7.2.6",
     "react-router-dom": "^6.0.2",
     "react-scripts": "^3.4.4",
-    "web-vitals": "^1.1.2",
-    "webpack": "^4.42.0"
+    "redux-thunk": "^2.4.1",
+    "web-vitals": "^1.1.2"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -39,5 +47,10 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "https://us-central1-praca-inz-cf3bb.cloudfunctions.net/api"
+  "proxy": "https://europe-west1-praca-inz-cf3bb.cloudfunctions.net/api",
+  "devDependencies": {
+    "sass": "^1.49.9",
+    "sass-loader": "^12.6.0",
+    "webpack": "^4.42.0"
+  }
 }

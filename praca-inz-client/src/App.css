@@ -60,3 +60,13 @@ header {
 .MuiBox-root {
   width: 100%;
 }
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 100px auto 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: -.2px;
+}
