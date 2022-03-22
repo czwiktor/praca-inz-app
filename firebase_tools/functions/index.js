@@ -11,13 +11,13 @@ const cors = require('cors');
 app.use(cors());
 
 // Show all alloys
-app.get('/show', getAllAlloys);
+app.get('/show', FBAuth, getAllAlloys);
 
 // Get all properties
-app.get('/getProps', getAllProperties);
+app.get('/getProps', FBAuth, getAllProperties);
 
 // Get all elements
-app.get('/getElements', getAllElements);
+app.get('/getElements', FBAuth, getAllElements);
 
 // Add an alloy
 app.get('/showDetails/:alloy_id',  FBAuth, getAlloy);
@@ -35,7 +35,7 @@ app.get('/user/:handle', getUserDetails);
 app.get('/user', FBAuth, getAuthenticatedUser);
 
 // Find matched alloys
-app.get('/search', queryAlloys);
+app.get('/search', FBAuth, queryAlloys);
 
 // User's registration
 app.post('/register', register);

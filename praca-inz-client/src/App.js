@@ -5,6 +5,7 @@ import './App.css';
 
 // Components
 import Navigation from './components/Navigation';
+import Footer from './components/Footer';
 import themeObject from './util/theme';
 
 // Theme
@@ -64,6 +65,7 @@ class App extends Component {
                 <Route path="showDetails/:alloy_id" element={<Alloy/>} />
               </Routes>
             </div>
+            <Footer />
           </Router>
         </Provider>
       </MuiThemeProvider>

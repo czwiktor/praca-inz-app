@@ -66,10 +66,10 @@ class signup extends Component {
     const { errors } = this.state;
 
     return (
-      <Grid container className={classes.form}>
+      <Grid container className='registration'>
         <Grid item sm />
-        <Grid item sm>
-          <Typography variant="h2" className={classes.pageTitle}>
+        <Grid item sm className='registration__container'>
+          <Typography variant="h2" className='registration__header'>
             Rejestracja
           </Typography>
           <form noValidate onSubmit={this.handleSubmit}>
@@ -78,7 +78,7 @@ class signup extends Component {
               name="email"
               type="email"
               label="Email"
-              className={classes.textField}
+              className='registration__input'
               helperText={errors.email}
               error={errors.email ? true : false}
               value={this.state.email}
@@ -90,7 +90,7 @@ class signup extends Component {
               name="password"
               type="password"
               label="Hasło"
-              className={classes.textField}
+              className='registration__input'
               helperText={errors.password}
               error={errors.password ? true : false}
               value={this.state.password}
@@ -102,7 +102,7 @@ class signup extends Component {
               name="confirmPassword"
               type="password"
               label="Potwierdź hasło"
-              className={classes.textField}
+              className='registration__input'
               helperText={errors.confirmPassword}
               error={errors.confirmPassword ? true : false}
               value={this.state.confirmPassword}
@@ -114,7 +114,7 @@ class signup extends Component {
               name="name"
               type="text"
               label="Nazwa"
-              className={classes.textField}
+              className='registration__input'
               helperText={errors.name}
               error={errors.name ? true : false}
               value={this.state.name}
@@ -130,7 +130,7 @@ class signup extends Component {
               type="submit"
               variant="contained"
               color="primary"
-              className={classes.button}
+              className='registration__button'
               disabled={loading}
             >
               Rejestracja
@@ -140,7 +140,7 @@ class signup extends Component {
             </Button>
             <br />
             <small>
-              Jeśli posiadasz już konto ? Zaloguj się <Link to="/login"> tutaj</Link>
+              Masz już konto?<Link to="/login"> Zaloguj się </Link>
             </small>
           </form>
         </Grid>

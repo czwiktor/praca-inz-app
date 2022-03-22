@@ -53,11 +53,11 @@ class login extends Component {
     const { errors } = this.state;
 
     return (
-      <Grid container className={classes.form}>
-        <Grid item sm />
-        <Grid item sm>
-          <Typography variant="h2" className={classes.pageTitle}>
-            Login
+      <Grid container className='login'>
+        <Grid item xs />
+        <Grid item xl className='login__container'>
+          <Typography variant="h2" className='login__header'>
+            Logowanie
           </Typography>
           <form noValidate onSubmit={this.handleSubmit}>
             <TextField
@@ -65,7 +65,7 @@ class login extends Component {
               name="email"
               type="email"
               label="Email"
-              className={classes.textField}
+              className='login__field'
               helperText={errors.email}
               error={errors.email ? true : false}
               value={this.state.email}
@@ -77,7 +77,7 @@ class login extends Component {
               name="password"
               type="password"
               label="Password"
-              className={classes.textField}
+              className='login__field'
               helperText={errors.password}
               error={errors.password ? true : false}
               value={this.state.password}
@@ -93,21 +93,21 @@ class login extends Component {
               type="submit"
               variant="contained"
               color="primary"
-              className={classes.button}
+              className='login__button'
               disabled={loading}
             >
-              Login
+              Zaloguj się
               {loading && (
                 <CircularProgress size={30} className={classes.progress} />
               )}
             </Button>
             <br />
             <small>
-              dont have an account ? sign up <Link to="/register">here</Link>
+              Nie masz konta ? <Link to="/register">Zarejestruj się</Link>
             </small>
           </form>
         </Grid>
-        <Grid item sm />
+        <Grid item xs />
       </Grid>
     );
   }

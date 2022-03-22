@@ -5,7 +5,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 export default function SimpleBackdrop() {
     return (
       <div>
-          <CircularProgress color="success" />
+          <CircularProgress className="skeleton-circle" color="success" />
       </div>
     );
 }

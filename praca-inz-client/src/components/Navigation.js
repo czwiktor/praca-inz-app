@@ -10,15 +10,15 @@ import PropTypes from 'prop-types';
 class Navigation extends Component {
     render() {
         const { authenticated } = this.props;
-        const userDataButtons = authenticated ? ( <> <Button color="inherit" component={Link} to="/login"> Logowanie </Button> <Button color="inherit" component={Link} to="/register"> Rejestracja </Button> </> )
-        : ( <Button color="inherit" component={Link} to="/user/:user_id"> Profil </Button>)
+        const userDataButtons = !authenticated ? ( <> <Button className="nav-container__btn" color="inherit" component={Link} to="/login"> Logowanie </Button> <Button className="nav-container__btn" color="inherit" component={Link} to="/register"> Rejestracja </Button> </> )
+        : ( <Button className="nav-container__btn" color="inherit" component={Link} to="/user/:user_id"> Profil </Button>)
         return (
           <AppBar>
             <Toolbar className="nav-container">
-              <Button color="inherit" component={Link} to="/">
+              <Button className="nav-container__btn" color="inherit" component={Link} to="/">
                 Strona Główna
               </Button>
-              <Button color="inherit" component={Link} to="/search">
+              <Button className="nav-container__btn" color="inherit" component={Link} to="/search">
                 Wyszukiwanie
               </Button>
               {userDataButtons}

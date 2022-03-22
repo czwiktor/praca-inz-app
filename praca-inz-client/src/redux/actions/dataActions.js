@@ -101,10 +101,10 @@ export const getAlloy = (alloyId) => (dispatch) => {
     .catch((err) => console.log(err));
 };
 
-export const getUserData = (email) => (dispatch) => {
+export const getUserData = () => (dispatch) => {
   dispatch({ type: LOADING_DATA });
   axios
-    .get(`/user/${email}`)
+    .get(`/user`)
     .then((res) => {
       dispatch({
         type: SET_DATA,

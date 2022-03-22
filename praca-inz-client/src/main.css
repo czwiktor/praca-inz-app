@@ -1,0 +1,229 @@
+body {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: .2px;
+  background-color: #f1f1ff;
+  width: 100%;
+  height: 100%; }
+
+p {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20px;
+  margin: 16px 0; }
+
+a {
+  text-decoration: none;
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: .24px;
+  line-height: 20px;
+  color: #354649; }
+  a:hover {
+    color: #121C27; }
+  a:visited {
+    color: #433E49; }
+
+#root {
+  width: 100%;
+  height: 92vh;
+  display: block;
+  position: relative; }
+  #root .nav-container__btn {
+    box-shadow: 0 0 15px 0 rgba(70, 72, 75, 0.3), 0 0 8px 0 rgba(70, 72, 75, 0.3);
+    min-width: 40px;
+    display: block;
+    text-align: center; }
+    #root .nav-container__btn:not(:last-child) {
+      margin-right: 16px; }
+    @media (min-width: 1024px) {
+      #root .nav-container__btn {
+        min-width: 120px; }
+        #root .nav-container__btn:not(:last-child) {
+          margin-right: 40px; } }
+    #root .nav-container__btn:hover {
+      color: #354649;
+      background-color: #121C27; }
+    #root .nav-container__btn span {
+      color: white; }
+  #root .footer {
+    background-color: #433E49;
+    box-shadow: 0px 0 10px 5px rgba(70, 72, 75, 0.3); }
+  #root .skeleton-circle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 80px; }
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: auto;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  box-shadow: 0 0 15px 0 rgba(70, 72, 75, 0.2), 0 0 8px 0 rgba(70, 72, 75, 0.2);
+  margin: 40px auto 100px; }
+  @media (min-width: 320px) {
+    .container {
+      max-width: 768px;
+      padding: 8px 16px; } }
+  @media (min-width: 768px) {
+    .container {
+      max-width: 1024px;
+      padding: 16px 24px; } }
+  @media (min-width: 1024px) {
+    .container {
+      max-width: 1400px;
+      padding: 48px 32px; } }
+  .container::-webkit-scrollbar {
+    display: none; }
+  .container .header {
+    margin-bottom: 24px;
+    text-align: center;
+    padding-bottom: 8px;
+    width: 100%; }
+    @media (min-width: 768px) {
+      .container .header {
+        margin-bottom: 32px; } }
+  .container .login {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 15px 0 rgba(70, 72, 75, 0.2), 0 0 8px 0 rgba(70, 72, 75, 0.2);
+    border: 1px solid #f9f1f2;
+    width: 60%;
+    border-radius: 1%;
+    background-color: #f1f1ff; }
+    .container .login__container {
+      padding: 12px 8px 20px;
+      width: 90%;
+      min-width: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column; }
+      @media (min-width: 768px) {
+        .container .login__container {
+          padding: 20px 16px 60px;
+          min-width: 400px; } }
+      @media (min-width: 1024px) {
+        .container .login__container {
+          min-width: 400px; } }
+    .container .login__header {
+      margin-bottom: 24px;
+      text-align: center;
+      padding-bottom: 8px;
+      width: 100%;
+      border-bottom: 1px solid gray; }
+      @media (min-width: 768px) {
+        .container .login__header {
+          margin-bottom: 32px; } }
+    .container .login__field {
+      width: 90%;
+      margin-bottom: 20px; }
+      @media (min-width: 768px) {
+        .container .login__field {
+          margin-bottom: 32px; } }
+    .container .login__button {
+      margin-bottom: 16px; }
+      @media (min-width: 768px) {
+        .container .login__button {
+          margin-bottom: 24px; } }
+  .container .button {
+    background-color: #292534;
+    padding: 24px 8px;
+    border-radius: 30px; }
+    @media (min-width: 768px) {
+      .container .button {
+        padding: 36px 12px; } }
+    .container .button:hover {
+      background-color: #354649; }
+  .container .registration {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 15px 0 rgba(70, 72, 75, 0.2), 0 0 8px 0 rgba(70, 72, 75, 0.2);
+    border: 1px solid #f9f1f2;
+    width: 90%;
+    border-radius: 1%;
+    background-color: #f1f1ff; }
+    .container .registration__container {
+      padding: 12px 8px 20px;
+      width: 100%;
+      min-width: 300px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column; }
+      @media (min-width: 768px) {
+        .container .registration__container {
+          padding: 20px 16px 60px;
+          min-width: 400px; } }
+      @media (min-width: 1024px) {
+        .container .registration__container {
+          min-width: 600px; } }
+      .container .registration__container form {
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        align-items: center; }
+    .container .registration__header {
+      margin-bottom: 24px;
+      text-align: center;
+      padding-bottom: 8px;
+      width: 100%;
+      border-bottom: 1px solid gray; }
+      @media (min-width: 768px) {
+        .container .registration__header {
+          margin-bottom: 32px; } }
+    .container .registration__input {
+      width: 80%;
+      margin-bottom: 20px; }
+      @media (min-width: 768px) {
+        .container .registration__input {
+          margin-bottom: 32px; } }
+    .container .registration__button {
+      width: 50%;
+      margin-bottom: 16px; }
+      @media (min-width: 768px) {
+        .container .registration__button {
+          margin-bottom: 24px; } }
+  .container .alloys {
+    height: 100%;
+    width: 100%;
+    padding: 16px;
+    margin: 0 auto; }
+    .container .alloys__container {
+      width: 100%;
+      margin: 0; }
+    .container .alloys__item {
+      background-color: #fff;
+      width: 100%;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 48px; }
+  .container .card-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    padding: 32px 12px;
+    transition: all .3s linear;
+    background-color: #f9f4f2;
+    box-shadow: 0 0 15px 0 rgba(70, 72, 75, 0.2); }
+    .container .card-item:hover {
+      background-color: #354649;
+      color: white; }
+    .container .card-item__button {
+      width: 90%;
+      min-width: 200px;
+      background-color: #575F68;
+      color: white;
+      transition: all .3s linear; }
+      .container .card-item__button:hover {
+        background-color: #292534;
+        color: white; }
