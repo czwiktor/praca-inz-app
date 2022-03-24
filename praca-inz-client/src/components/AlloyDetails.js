@@ -39,7 +39,6 @@ class AlloyDetails extends Component {
                     </div>
                 </div>
             </Container>
-        
         )
     }
 }

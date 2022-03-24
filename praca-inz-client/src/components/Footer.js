@@ -4,7 +4,6 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import CopyrightIcon from '@mui/icons-material/Copyright';
 import { Typography } from "@material-ui/core";
 
 const mql = window.matchMedia('(max-width: 1024px)');
@@ -24,8 +23,6 @@ if (mobileView) {
         </IconButton>
     )
 }
-
-
 
 export default function BottomAppBar() {
   return (

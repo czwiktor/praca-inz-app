@@ -948,28 +948,13 @@ exports.addAllAlloys = (req, res) => {
 
 exports.getAlloy = (req, res) => {
     let alloy = {};
-    db.doc(`/alloys/${req.params.alloyId}`)
+    let result = []
+    db.doc(`/alloys/${req.params.alloy_name}`)
         .get()
-        .then( (doc) => {
-            if (!doc.exists) {
-                return res.status(404).json({ error: 'Alloy not found!'});
-            }
-
-            alloy = doc.data();
-            alloy.alloyId = doc.id;
-
-            return db
-                .collection('composition')
-                .where('alloyId', '==', req.params.alloyId)
-                .get();
-        })
-        .then(() => {
-            alloy.composition = [];
-            alloy.forEach((doc) => {
-                alloy.composition.push(doc.data());
-            });
-
-            return res.json(screamData);
+        .then((doc) => {
+            alloy = new Alloy(doc.data());
+            result.push(alloy )
+            return res.json(result);
         })
         .catch((err) => {
             console.error(err);

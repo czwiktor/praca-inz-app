@@ -14,14 +14,14 @@ module.exports = (req, res, next) => {
         .verifyIdToken(idToken)
         .then((decodedToken) => {
             req.user = decodedToken;
-            console.log(decodedToken);
             return db
                 .collection('users')
-                .where('userId', '===', req.user.uid)
+                .where('userId', '==', req.user.uid)
                 .limit(1)
                 .get();
         })
         .then((data) => {
+            req.user.email = data.docs[0].data().email;
             req.user.name = data.docs[0].data().name;
             return next();
         })

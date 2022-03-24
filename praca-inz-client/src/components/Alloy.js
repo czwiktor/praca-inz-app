@@ -51,7 +51,7 @@ class Alloy extends Component {
                     </Typography>
                 </CardContent>
                 <CardActions>
-                    <Button className={classes.button} size="large" component={Link} to={`/showDetails/${id}`}> Sprawdź </Button>
+                    <Button className={classes.button} size="large" component={Link} to={`/showDetails/${name}`}> Sprawdź </Button>
                 </CardActions>
             </Card>
         )

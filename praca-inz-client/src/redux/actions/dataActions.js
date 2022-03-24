@@ -87,10 +87,10 @@ export const getElements = () => (dispatch) => {
     });
 };
 
-export const getAlloy = (alloyId) => (dispatch) => {
+export const getAlloy = (alloy_name) => (dispatch) => {
   dispatch({ type: LOADING_UI });
   axios
-    .get(`/showDetails/${alloyId}`)
+    .get(`/showDetails/${alloy_name}`)
     .then((res) => {
       dispatch({
         type: SET_ALLOY,

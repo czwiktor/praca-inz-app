@@ -20,7 +20,7 @@ import Register from './pages/register';
 import Login from './pages/login';
 import Search from './pages/search';
 import User from './pages/user';
-import Alloy from './pages/details';
+import Details from './pages/details';
 
 // Redux
 import { Provider } from 'react-redux';
@@ -62,7 +62,7 @@ class App extends Component {
                 <Route path="search" element={<Search/>} />
                 <Route path="search/:params" element={<Search/>} />
                 <Route path="users/:handle" element={<User/>} />
-                <Route path="showDetails/:alloy_id" element={<Alloy/>} />
+                <Route path="showDetails/:alloy_name" element={<Details/>} />
               </Routes>
             </div>
             <Footer />

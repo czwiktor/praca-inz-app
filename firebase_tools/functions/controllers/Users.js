@@ -1,10 +1,9 @@
 const { admin, db } = require('../scripts/admin');
-const { validateRegistrationData, validateLoginData, reduceUserDetails } = require('../util/validator');
+const { validateRegistrationData, validateLoginData} = require('../util/validator');
 
 const firebaseApp = require('firebase/app');
 const firebaseAuth = require('firebase/auth');
 const config = require('../scripts/config');
-const { UserRecordMetadata } = require('firebase-functions/v1/auth');
 
 firebaseApp.initializeApp(config);
 
