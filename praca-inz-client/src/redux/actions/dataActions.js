@@ -32,9 +32,18 @@ export const getAlloys = () => (dispatch) => {
 
 // Get all alloys
 export const getSearchedAlloys = (params) => (dispatch) => {
+  let getString;
+
+  if (!params || typeof params == 'undefined') {
+    params = '';
+    getString = '/search';
+  } else {
+    getString = `/search/${params}`
+  }
+  
   dispatch({ type: LOADING_DATA });
   axios
-    .get(`/queryAlloys/${params}`)
+    .get(getString)
     .then((res) => {
       dispatch({
         type: SET_ALLOYS,

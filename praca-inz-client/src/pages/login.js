@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import withStyles from '@material-ui/core/styles/withStyles';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { withRouter } from '../components/withRouter';
 
 // MUI Stuff
 import Grid from '@material-ui/core/Grid';
@@ -9,6 +9,8 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import withStyles from '@material-ui/core/styles/withStyles';
+
 // Redux stuff
 import { connect } from 'react-redux';
 import { loginUser } from '../redux/actions/userActions';
@@ -26,7 +28,7 @@ class login extends Component {
       errors: {}
     };
   }
-  componentWillReceiveProps(nextProps) {
+  componentWillReceiveProps (nextProps) {
     if (nextProps.UI.errors) {
       this.setState({ errors: nextProps.UI.errors });
     }
@@ -37,14 +39,14 @@ class login extends Component {
       email: this.state.email,
       password: this.state.password
     };
-    this.props.loginUser(userData, this.props.history);
+    this.props.loginUser(userData, this.props);
   };
   handleChange = (event) => {
     this.setState({
       [event.target.name]: event.target.value
     });
   };
-  render() {
+  render () {
     const {
       classes,
       UI: { loading }
@@ -128,7 +130,7 @@ const mapActionsToProps = {
   loginUser
 };
 
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
   mapActionsToProps
-)(withStyles(styles)(login));
+)(withStyles(styles)(login)));

@@ -14,8 +14,6 @@ class Navigation extends Component {
   };
 
   render() {
-    let test = this;
-    let tes2 = this.props;
     const {
       user: {
         credentials: { email, name},
@@ -29,9 +27,11 @@ class Navigation extends Component {
       </>
     )
     : ( 
-      <>
-        <Button className="nav-container__btn" color="inherit" component={Link} to="/user/:user_id"> Profil: {name} </Button>
-        <Button className="nav-container__btn nav-container__btn--logout" tip="Logout" onClick={this.handleLogout}> Wyloguj </Button>
+      <> 
+        <div className="nav-container__user-action">
+          <Button className="nav-container__btn" color="inherit" component={Link} to={`/user/${email}`}> Profil: <span> {name} </span> </Button>
+          <Button className="nav-container__btn nav-container__btn--logout" tip="Logout" onClick={this.handleLogout}> Wyloguj </Button>
+        </div>
       </>
     )
     
@@ -51,7 +51,7 @@ class Navigation extends Component {
   }
 }
 
-const mapActionsToProps = { logoutUser};
+const mapActionsToProps = { logoutUser };
 
 const mapStateToProps = (state) => ({
   user: state.user,

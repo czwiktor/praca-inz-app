@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
+import { Link, useParams } from 'react-router-dom';
 
 import Typography from '@material-ui/core/Typography';
 import AlloyDetails from '../components/AlloyDetails';
@@ -25,7 +26,7 @@ class details extends Component {
     }
 
     render() {
-        console.log(this.props);
+        console.log(this.props.data);
         const { alloy, loading } = this.props.data;
 
         let alloyMarkup  = !loading ? (

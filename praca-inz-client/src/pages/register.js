@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import withStyles from '@material-ui/core/styles/withStyles';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
+import { withRouter } from '../components/withRouter';
 
 // MUI Stuff
 import Grid from '@material-ui/core/Grid';
@@ -49,7 +50,7 @@ class signup extends Component {
       name: this.state.name
     };
 
-    this.props.signupUser(newUserData, this.props.history);
+    this.props.signupUser(newUserData, this.props);
   };
 
   handleChange = (event) => {
@@ -162,7 +163,7 @@ const mapStateToProps = (state) => ({
   UI: state.UI
 });
 
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
   { signupUser }
-)(withStyles(styles)(signup));
+)(withStyles(styles)(signup)));

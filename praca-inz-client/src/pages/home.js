@@ -30,14 +30,24 @@ class home extends Component {
           alloys.map((alloy) => <Grid className='alloys__item' item xs={6} md={6} lg={4}> <Alloy className='alloys__content' key={alloy.id} alloy={alloy} /> </Grid> )
         ) : ( <Skeleton />  );
 
+        const {
+            user: {
+              authenticated
+            }
+        }  = this.props;
+
+        const notAuth = (<> <div className="alert-modal"> <p> Zawartość dostępna tylko dla zalogowanych użytkowników </p> </div> </>);
+        const notAllowed = (<> <div className="alert-modal"> <p> Zawartość dostępna tylko dla zalogowanych użytkowników </p> </div> </>);
+        alloysMarkup  = !authenticated ? notAuth : alloysMarkup;
+
         return (
             <Box className="alloys" sx={{ flexGrow: 1 }}>
-                <Typography variant="h2" className='header'>
-                        Dobieranie stopów aluminium
+                <Typography variant="h2" className='header-text'>
+                    Dobieranie stopów aluminium
                 </Typography>
 
-                <Typography variant="h4" className='header'>
-                        Lista wszystkich dostępnych w aplikacji stopów:
+                <Typography variant="h4" className='header-text'>
+                    Lista wszystkich dostępnych w aplikacji stopów:
                 </Typography>
 
                 <Grid className="alloys__container" container spacing={5}>
@@ -50,11 +60,14 @@ class home extends Component {
 
 home.propTypes = {
     getAlloys: PropTypes.func.isRequired,
-    data: PropTypes.object.isRequired
+    data: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => ({
-    data: state.data
+    data: state.data,
+    user: state.user,
+    authenticated: state.user.authenticated
 });
   
 export default connect(

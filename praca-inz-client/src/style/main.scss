@@ -7,7 +7,7 @@ body {
     font-weight: 400;
     line-height: 18px;
     letter-spacing: .2px;
-    background-color: #f1f1ff;
+    background-color: $background-light;
     width: 100%;
     height: 100%;
 }
@@ -44,10 +44,11 @@ a {
 
     .nav-container {
         &__btn {
-            box-shadow: 0 0 15px 0 rgba(70, 72, 75, 0.3), 0 0 8px 0 rgba(70, 72, 75, 0.3);
+            box-shadow: 0 0 15px 0 $shadow, 0 0 8px 0 $shadow;
             min-width: 40px;
             display: block;
             text-align: center;
+            transition: all .3s ease-in;
 
             &:not(:last-child) {
                 margin-right: 16px;
@@ -61,19 +62,35 @@ a {
             }
 
             &:hover {
-                color: $primary-light;
+                span {
+                    color: $texthover;
+                    span {
+                        color: $contrastText;
+                    }
+                } 
                 background-color: $primary-dark;
             }
             
             span {
-                color: white;
+                color: $contrastText;
+                span {
+                    color: $contrastText;
+                    color: $texthover;
+                }
             }
+        }
+
+        &__user-action {
+            margin-left: auto;
+            display: flex;
+            float: right;
         }
     }
 
     .footer {
         background-color: $primary-main;
-        box-shadow: 0px 0 10px 5px rgba(70, 72, 75, 0.3);
+        box-shadow: 0px 0 10px 5px $shadow;
+        margin-bottom: 0;
     }
 
     .skeleton-circle {
@@ -84,16 +101,34 @@ a {
     }
 }
 
-.container {
+header {
+    background-color: $background-dark-blue;
+    max-height: 80px;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: $contrastText;
+    margin-bottom: 24px;
+    text-align: center;padding-bottom: 8px;
+    width: 100%;
+    
+    &:first-child {
+        @include breakpoint(medium) {
+            margin-bottom: 32px;
+        }
+    }
+}
+
+.container {
+    display: flex;
     overflow: auto;
     width: 100%;
     height: 100%;
     background-color: #fff;
-    box-shadow: 0 0 15px 0 rgba(70, 72, 75, 0.2), 0 0 8px 0 rgba(70, 72, 75, 0.2);
-    margin: 40px auto 100px;
+    box-shadow: 0 0 15px 0 $shadow-light, 0 0 8px 0 $shadow-light;
+    margin: 30px auto 100px;
 
     @include breakpoint(small) {
         max-width: 768px;
@@ -114,24 +149,42 @@ a {
         display: none;
     }
 
-   .header {
-       margin-bottom: 24px;
-       text-align: center;padding-bottom: 8px;
-       width: 100%;
-       @include breakpoint(medium) {
-           margin-bottom: 32px;
+    .header-text {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    .progress {
+        position: absolute;
+    }
+
+    .alert-modal {
+        margin: 60px auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 15px;
+        width: 40%;
+
+        height: 250px;
+        box-shadow: 0 0 15px 0 $shadow-light;
+
+        p {
+            font-weight: 400;
+            font-size: 20px;
+            text-align: center;
         }
-   }
+    }
 
     .login {
         display: flex;
         align-items: center;
         justify-content: center;
-        box-shadow: 0 0 15px 0 rgba(70, 72, 75, 0.2), 0 0 8px 0 rgba(70, 72, 75, 0.2);
-        border: 1px solid #f9f1f2;
+        box-shadow: 0 0 15px 0 $shadow-light, 0 0 8px 0 $shadow-light;
+        border: 1px solid $border;
         width: 60%;
         border-radius: 1%;
-        background-color: #f1f1ff;
+        background-color: $background-light;
     
         &__container {
             padding: 12px 8px 20px;
@@ -197,11 +250,11 @@ a {
         display: flex;
         align-items: center;
         justify-content: center;
-        box-shadow: 0 0 15px 0 rgba(70, 72, 75, 0.2), 0 0 8px 0 rgba(70, 72, 75, 0.2);
-        border: 1px solid #f9f1f2;
+        box-shadow: 0 0 15px 0 $shadow-light, 0 0 8px 0 $shadow-light;
+        border: 1px solid $border;
         width: 90%;
         border-radius: 1%;
-        background-color: #f1f1ff;
+        background-color: $background-light;
     
         &__container {
             
@@ -267,6 +320,8 @@ a {
         &__container {
            width: 100%;
            margin: 0;
+           align-items: center;
+           justify-content: center;
         }
 
         &__header {
@@ -279,6 +334,7 @@ a {
             align-items: center;
             justify-content: center;
             padding: 12px 48px;
+            cursor: default;
         }
     }
 
@@ -291,11 +347,11 @@ a {
         padding: 32px 12px;
         transition: all .3s linear;
         background-color: #f9f4f2;
-        box-shadow: 0 0 15px 0 rgba(70, 72, 75, 0.2);
+        box-shadow: 0 0 15px 0 $shadow-light;
 
         &:hover {
             background-color: $primary-light;
-            color: white;
+            color: $contrastText;
 
         }
 
@@ -311,15 +367,82 @@ a {
             width: 90%;
             min-width: 200px;
             background-color: $secondary-light;
-            color: white;
+            color: $contrastText;
             transition: all .3s linear;
 
             &:hover {
                 background-color: $secondary-dark;
-                color: white;
+                color: $contrastText;
                
             }
         }
+    }
+}
+
+.search-queries {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    padding: 16px;
+
+    &__text {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 8px;
+    }
+
+    h1 {
+        display: block;
+        width: 100%;
+    }
+
+    h2 {
+        text-align: center;
+    }
+
+    &__form {
+        form {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        width: 100%;
+    }
+
+    &__help {
+        margin-top: auto;
+        font-size: 10px;
+    }
+
+    &__item {
+        margin-bottom: 30px;
+        width: 30%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border: 1px solid $border;
+        background-color: white;
+        padding: 16px;
+        box-shadow: 0 0 15px 0 $shadow-light;
+
+        &:not(:last-child) {
+            margin-right: 30px;
+        }
+    }
+
+    &__button {
+        width: 40%;
+    }
+}
+
+.search-results {
+    border-top: 2px solid $border;
+    margin-top: 30px;
+
+    h1 {
+        margin-bottom: 24px;
     }
 }
 
