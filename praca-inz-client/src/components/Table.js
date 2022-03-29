@@ -7,57 +7,45 @@ import { TableHead } from '@material-ui/core';
 import { TableRow } from '@material-ui/core';
 import { Paper } from '@material-ui/core';
 
-
-
 function createData(name, properties) {
   return {name, properties};
 }
 
-const rows = [];
+export default function BasicTable (attr) {
 
+  const atrib = attr.attributes.attribute;
+  const rows = [];
 
-// const rows = [
-//   createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-//   createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-//   createData('Eclair', 262, 16.0, 24, 6.0),
-//   createData('Cupcake', 305, 3.7, 67, 4.3),
-//   createData('Gingerbread', 356, 16.0, 49, 3.9),
-// ];
+  if (typeof atrib != 'undefined') {
+    rows.push(atrib);
+  }
 
- const printRows = rows.properties ? (rows.properties.map( (property) => <TableCell align="right"> {property} </TableCell> )) : '';
+  if (rows.length) {
+    const property = rows[0];
 
+    const keys = Object.keys(property);
+    const values = Object.values(property);
 
-export default function BasicTable () {
-  const { attributes } = this.props;
+    let printColumns = property != null ? keys.map((key) => <TableCell align="center"> {key} </TableCell> ) : '';
+    let printRows = property != null ? values.map((val) => <TableCell align="center"> {val} </TableCell> ) : '';
 
-  console.log(attributes);
-  attributes.map((attr) => {
-    return rows.push(createData(attr.name, attr.properties))
-  });
-
-  return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell></TableCell>
-            <TableCell align="right">[MPa]</TableCell>
-            <TableCell align="right">[MPa]</TableCell>
-            <TableCell align="right">[%]</TableCell>
-            <TableCell align="right">[HB]</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-              <TableCell component="th" scope="row">
-                {row.name}
-              </TableCell>
-              {printRows}
+    return (
+      <TableContainer className="alloy-table__item" component={Paper}>
+        <Table className="alloy-table__table" sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead className="alloy-table__head">
+            <TableRow>
+              {printColumns}
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-  );
+          </TableHead>
+          <TableBody className="alloy-table__body">
+            {rows.map((row) => (
+              <TableRow key={row.name} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                {printRows}
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    );
+  }
 }

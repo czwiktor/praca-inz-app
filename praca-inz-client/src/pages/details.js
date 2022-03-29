@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-import { Link, useParams } from 'react-router-dom';
+import { withRouter } from '../components/withRouter';
 
 import Typography from '@material-ui/core/Typography';
 import AlloyDetails from '../components/AlloyDetails';
@@ -17,31 +17,28 @@ const styles = (theme) => ({
 });
 
 class details extends Component {
+    constructor(props) {
+        super(props);
+    }
+
     state = {
         alloy: null
     }
 
     componentDidMount () {
-        this.props.getAlloy('AlCu4MgTi');
+        this.props.getAlloy(this.props.params.alloy_name);
     }
 
     render() {
-        console.log(this.props.data);
         const { alloy, loading } = this.props.data;
 
         let alloyMarkup  = !loading ? (
-          alloy.map((alloy) => <Grid className='alloys__item' item xs={6} md={6} lg={4}> <AlloyDetails className='alloys__content' key={alloy.id} alloy={alloy} /> </Grid> )
+          alloy.map((alloy) => <AlloyDetails className='alloys__content' key={alloy.id} alloy={alloy} />)
         ) : ( <Skeleton />  );
 
         return (
-            <Box className="alloys" sx={{ flexGrow: 1 }}>
-                <Typography variant="h2" className='header'>
-                    Stop aluminium
-                </Typography>
-
-                <Grid className="alloys__container" container spacing={5}>
-                    {alloyMarkup}
-                </Grid>
+            <Box className="alloy-details" sx={{ flexGrow: 1 }}>
+                {alloyMarkup}
             </Box>
         );
     }
@@ -56,7 +53,7 @@ const mapStateToProps = (state) => ({
     data: state.data
 });
   
-export default connect(
+export default withRouter(connect(
 mapStateToProps,
 { getAlloy }
-) (withStyles(styles)(details));
+) (withStyles(styles)(details)));

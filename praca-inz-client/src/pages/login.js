@@ -103,9 +103,9 @@ class login extends Component {
               )}
             </Button>
             <br />
-            <small>
+            <span>
               Nie masz konta ? <Link to="/register">Zarejestruj się</Link>
-            </small>
+            </span>
           </form>
         </Grid>
         <Grid item xs />

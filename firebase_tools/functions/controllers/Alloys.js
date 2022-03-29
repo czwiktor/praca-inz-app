@@ -709,8 +709,13 @@ class Alloy {
             Cu: data.composition.Cu,
             Fe: data.composition.Fe,
             Mg: data.composition.Mg,
+            Mn: data.composition.Mn,
+            Cr: data.composition.Cr,
+            Pb: data.composition.Pb,
+            Ti: data.composition.Ti,
             Ni: data.composition.Ni,
             Si: data.composition.Si,
+            Sr: data.composition.Sr,
             Zn: data.composition.Zn,
             Others: data.composition.inne
         }
@@ -729,6 +734,10 @@ class compQuery {
             min: query.Al.min,
             max: query.Al.max
         };
+        this.Cr = {
+            min: query.Cr.min,
+            max: query.Cr.max
+        };
         this.Cu = {
             min: query.Cu.min,
             max: query.Cu.max
@@ -741,9 +750,21 @@ class compQuery {
             min: query.Mg.min,
             max: query.Mg.max
         };
+        this.Mn = {
+            min: query.Mn.min,
+            max: query.Mn.max
+        };
         this.Ni = {
             min: query.Ni.min,
             max: query.Ni.max
+        };
+        this.Pb = {
+            min: query.Pb.min,
+            max: query.Pb.max
+        };
+        this.Ti = {
+            min: query.Ti.min,
+            max: query.Ti.max
         };
         this.Si = {
             min: query.Si.min,

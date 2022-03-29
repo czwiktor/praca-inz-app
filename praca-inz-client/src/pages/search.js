@@ -39,18 +39,24 @@ const MenuProps = {
   },
 };
 
-export function MultipleSelectCheckmarks (elements) {
+let params = {
+    group: '',
+    composition: [],
+    properties: []
+}
+
+export function MultipleSelectElements (elements, params) {
   const [elementName, setElementName] = React.useState([]);
   elements = elements.elements;
-
+    
   const handleChange = (event) => {
-    const {
-      target: { value },
-    } = event;
+    const { target: { name, value } } = event;
     setElementName(
       // On autofill we get a stringified value.
       typeof value === 'string' ? value.split(',') : value,
     );
+    this.setState({ params: { name: value } });
+    console.log('elements selector' + params);
   };
 
   return (
@@ -60,6 +66,7 @@ export function MultipleSelectCheckmarks (elements) {
         <Select
           labelId="demo-multiple-checkbox-label"
           id="demo-multiple-checkbox"
+          name='composition'
           multiple
           value={elementName}
           onChange={handleChange}
@@ -79,6 +86,49 @@ export function MultipleSelectCheckmarks (elements) {
   );
 }
 
+export function MultipleSelectGroup (elements, params) {
+    const [elementName, setElementName] = React.useState([]);
+    elements = elements.elements;
+      
+    const handleChange = (event, params) => {
+      const { target: { name, value } } = event;
+      setElementName(
+        // On autofill we get a stringified value.
+        typeof value === 'string' ? value.split(',') : value,
+      );
+        
+      this.setState({ params: { name: value } });
+
+      console.log('group selector' + params);
+    };
+  
+    return (
+      <div>
+        <FormControl sx={{ m: 1, width: 300 }}>
+          <InputLabel id="demo-multiple-checkbox-label">Pierwiastki chemiczne</InputLabel>
+          <Select
+            labelId="demo-multiple-checkbox-label"
+            id="demo-multiple-checkbox"
+            name='group'
+            multiple
+            value={elementName}
+            onChange={handleChange}
+            input={<OutlinedInput label="Pierwiastki chemiczne" />}
+            renderValue={(selected) => selected.join(', ')}
+            MenuProps={MenuProps}
+          >
+            {elements.map((element) => (
+              <MenuItem key={element.element_id} value={element.name_short}>
+                <Checkbox checked={elementName.indexOf(element.name_short) > -1} />
+                <ListItemText primary={element.name_long} />
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </div>
+    );
+  }
+
 export function RangeSlider(prop) {
     let property = prop.prop;
     const name = property.prop_name;
@@ -88,6 +138,7 @@ export function RangeSlider(prop) {
   
     const handleChange = (event, newValue) => {
       setValue(newValue);
+      
     };
   
     return (
@@ -169,14 +220,13 @@ class search extends Component {
         this.state = {
             alloys: null,
             propses: null,
-            elements: null
+            elements: null,
+            params: {
+                group: '',
+                properties: [],
+                composition: []
+            }
         };
-
-        // const query = {
-        //     group: this.state.group,
-        //     composition: this.state.composition,
-        //     propses: this.state.properties
-        // };
     }
 
     componentDidMount () {
@@ -187,22 +237,21 @@ class search extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        const query = {
-            group: this.state.group,
-            composition: this.state.composition,
-            propses: this.state.properties
-        };
-
-        this.props.getSearchedAlloys(query);
+   
+        console.log(this.state.params);
+        this.props.getSearchedAlloys(this.state.params);
     };
 
     render() {
         const { alloys, loading1, propses, loading2, elements, loading3 } = this.props.data;
         let count = alloys.length;
+        const compString = 'composition';
+        const propString = 'properties';
+        const groupString = 'group';
         
         let alloysMarkup = alloys.map((alloy) => <Grid item xs={6} md={6} lg={4}> <Alloy key={alloy.id} alloy={alloy} /> </Grid> )
         let propsMarkup = propses.map((prop) => <div> <RangeSlider key={prop.id} prop={prop} /> </div> )
-        let elementsMarkup = <div> <MultipleSelectCheckmarks elements={elements} /> </div>
+        let elementsMarkup = <div> <MultipleSelectElements elements={elements} named={compString} /> </div>
         let loading = loading1 && loading2 && loading3;
 
         let finalMarkup = !loading ? (
@@ -277,10 +326,12 @@ search.propTypes = {
     getElements: PropTypes.func.isRequired,
     propses: PropTypes.object.isRequired,
     alloys: PropTypes.object.isRequired,
+    params: PropTypes.object.isRequired,
     elements: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => ({
+    params: state.params,
     data: state.data
 });
 

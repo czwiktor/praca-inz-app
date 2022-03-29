@@ -26,19 +26,14 @@ class home extends Component {
     render() {
 
         const { alloys, loading } = this.props.data;
-        let alloysMarkup  = !loading ? (
-          alloys.map((alloy) => <Grid className='alloys__item' item xs={6} md={6} lg={4}> <Alloy className='alloys__content' key={alloy.id} alloy={alloy} /> </Grid> )
-        ) : ( <Skeleton />  );
+        console.log(loading);
+        const { authenticated } = this.props.user;
 
-        const {
-            user: {
-              authenticated
-            }
-        }  = this.props;
-
-        const notAuth = (<> <div className="alert-modal"> <p> Zawartość dostępna tylko dla zalogowanych użytkowników </p> </div> </>);
+        const notAuthMarkup = (<> <div className="alert-modal"> <p> Zawartość dostępna tylko dla zalogowanych użytkowników </p> </div> </>);
         const notAllowed = (<> <div className="alert-modal"> <p> Zawartość dostępna tylko dla zalogowanych użytkowników </p> </div> </>);
-        alloysMarkup  = !authenticated ? notAuth : alloysMarkup;
+        
+        let alloysMarkup  = authenticated ? !loading ? alloys.map((alloy) => <Grid className='alloys__item' item xs={6} md={6} lg={4}> <Alloy className='alloys__content' key={alloy.id} alloy={alloy} /> </Grid>) :  <Skeleton />  : notAuthMarkup;
+        //alloysMarkup = !notAllowed ? allosMarkup : notAllowedMarkup;
 
         return (
             <Box className="alloys" sx={{ flexGrow: 1 }}>

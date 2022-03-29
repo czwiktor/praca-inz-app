@@ -140,9 +140,9 @@ class signup extends Component {
               )}
             </Button>
             <br />
-            <small>
+            <span>
               Masz już konto?<Link to="/login"> Zaloguj się </Link>
-            </small>
+            </span>
           </form>
         </Grid>
         <Grid item sm />

@@ -61,7 +61,7 @@ class App extends Component {
                 <Route path="register" element={<Register/>} />
                 <Route path="search" element={<Search/>} />
                 <Route path="search/:params" element={<Search/>} />
-                <Route path="users/:handle" element={<User/>} />
+                <Route path="user/:handle" element={<User/>} />
                 <Route path="showDetails/:alloy_name" element={<Details/>} />
               </Routes>
             </div>

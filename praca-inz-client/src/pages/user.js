@@ -1,62 +1,32 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import axios from 'axios';
-import Alloy from '../components/Alloy';
-import StaticProfile from '../components/StaticProfile';
+import Profile from '../components/Profile';
 import Grid from '@material-ui/core/Grid';
 
 import { connect } from 'react-redux';
 import { getUserData } from '../redux/actions/dataActions';
+import { withRouter } from '../components/withRouter';
 
 class user extends Component {
   state = {
-    profile: null,
-    screamIdParam: null
+    profile: null
   };
+
   componentDidMount() {
-    const handle = this.props.match.params.handle;
-    const screamId = this.props.match.params.screamId;
-
-    if (screamId) this.setState({ screamIdParam: screamId });
-
-    this.props.getUserData(handle);
-    axios
-      .get(`/user/${handle}`)
-      .then((res) => {
-        this.setState({
-          profile: res.data.user
-        });
-      })
-      .catch((err) => console.log(err));
+    const email = this.props.params.email;
+    this.props.getUserData(email);
   }
-  render() {
-    const { screams, loading } = this.props.data;
-    const { screamIdParam } = this.state;
 
-    const screamsMarkup = loading ? (
-      ''
-    ) : screams === null ? (
-      <p>No screams from this user</p>
-    ) : !screamIdParam ? (
-      screams.map((alloy) => <Alloy key={alloy.alloyId} alloy={alloy} />)
-    ) : (
-      screams.map((alloy) => {
-        if (alloy.alloyId !== screamIdParam)
-          return <Alloy key={alloy.alloyId} alloy={alloy} />;
-        else return <Alloy key={alloy.alloyId} alloy={alloy} openDialog />;
-      })
-    );
+  render() {
+    const { userData, loading } = this.props.data;
 
     return (
       <Grid container spacing={16}>
-        <Grid item sm={8} xs={12}>
-          {screamsMarkup}
-        </Grid>
-        <Grid item sm={4} xs={12}>
-          {this.state.profile === null ? (
+        <Grid xs={12}>
+          {userData === null ? (
             ''
           ) : (
-            <StaticProfile profile={this.state.profile} />
+            <Profile props={userData} />
           )}
         </Grid>
       </Grid>
@@ -73,7 +43,7 @@ const mapStateToProps = (state) => ({
   data: state.data
 });
 
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
   { getUserData }
-)(user);
+)(user));

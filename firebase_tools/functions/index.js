@@ -35,7 +35,7 @@ app.get('/user/:handle', getUserDetails);
 app.get('/user', FBAuth, getAuthenticatedUser);
 
 // Find matched alloys
-app.get('/search', FBAuth, queryAlloys);
+app.post('/search', FBAuth, queryAlloys);
 
 // User's registration
 app.post('/register', register);

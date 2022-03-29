@@ -31,19 +31,10 @@ export const getAlloys = () => (dispatch) => {
 };
 
 // Get all alloys
-export const getSearchedAlloys = (params) => (dispatch) => {
-  let getString;
-
-  if (!params || typeof params == 'undefined') {
-    params = '';
-    getString = '/search';
-  } else {
-    getString = `/search/${params}`
-  }
-  
+export const getSearchedAlloys = (body) => (dispatch) => {
   dispatch({ type: LOADING_DATA });
   axios
-    .get(getString)
+    .post('/search', body)
     .then((res) => {
       dispatch({
         type: SET_ALLOYS,
@@ -105,15 +96,14 @@ export const getAlloy = (alloy_name) => (dispatch) => {
         type: SET_ALLOY,
         payload: res.data
       });
-      dispatch({ type: STOP_LOADING_UI });
     })
     .catch((err) => console.log(err));
 };
 
-export const getUserData = () => (dispatch) => {
+export const getUserData = (email) => (dispatch) => {
   dispatch({ type: LOADING_DATA });
   axios
-    .get(`/user`)
+    .get(`/user/${email}`)
     .then((res) => {
       dispatch({
         type: SET_DATA,

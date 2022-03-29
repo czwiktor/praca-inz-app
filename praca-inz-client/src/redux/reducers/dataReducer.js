@@ -9,7 +9,7 @@ import {
 
 const initialState = {
   alloys: [],
-  alloy: {},
+  alloy: [],
   loading: false,
   elements: [],
   propses: []
@@ -20,37 +20,37 @@ export default function(state = initialState, action) {
     case LOADING_DATA:
       return {
         ...state,
-        loading: true
+        loading: false
       };
     case SET_ALLOYS:
       return {
         ...state,
         alloys: action.payload,
-        loading: true
+        loading: false
       };
     case SET_ALLOY:
       return {
         ...state,
         alloy: action.payload,
-        loading: true
+        loading: false
       };
     case SET_PROPS:
       return {
         ...state,
         propses: action.payload,
-        loading: true
+        loading: false
       };
     case SET_ELEMS:
       return {
         ...state,
         elements: action.payload,
-        loading: true
+        loading: false
       };
     case SET_DATA:
       return {
         ...state,
         user: action.payload,
-        loading: true
+        loading: false
       };
     default:
       return state;
