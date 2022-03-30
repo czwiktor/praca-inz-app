@@ -37,9 +37,9 @@ class details extends Component {
         ) : ( <Skeleton />  );
 
         return (
-            <Box className="alloy-details" sx={{ flexGrow: 1 }}>
+            <>
                 {alloyMarkup}
-            </Box>
+            </>
         );
     }
 }

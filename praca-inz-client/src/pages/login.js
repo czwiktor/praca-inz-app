@@ -55,7 +55,6 @@ class login extends Component {
 
     return (
       <Grid container className='login'>
-        <Grid item xs />
         <Grid item xl className='login__container'>
           <Typography variant="h2" className='login__header'>
             Logowanie
@@ -108,7 +107,6 @@ class login extends Component {
             </span>
           </form>
         </Grid>
-        <Grid item xs />
       </Grid>
     );
   }

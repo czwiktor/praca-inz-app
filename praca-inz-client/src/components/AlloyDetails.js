@@ -26,20 +26,14 @@ class AlloyDetails extends Component {
         )
 
         return (
-            <Container>
-                <div class={classes.main}>
-                    <div class={classes.alloySidebar}>
-                    </div>
-                    <div class={classes.alloyContent}>
-                        <div className={classes.alloyText}> 
-                            <Typography className="alloy-details__text-item" variant="h2"> <b> Szczegóły stopu:  </b> {alloy.name} </Typography>
-                            <Typography className="alloy-details__text-item" variant="h4"> <b> Grupa stopów: </b> Lorem ipsum dolor sit amet {alloy.group} </Typography>
-                            <Typography className="alloy-details__text-item" variant="p"> <b> Autor: </b> Lorem ipsum dolor sit amet {alloy.author} </Typography>
-                        </div>
-                        <div className={classes.alloyAccordions}> 
-                            {attributesMarkup}
-                        </div>
-                    </div>
+            <Container className="alloy-details">
+                <div className={classes.alloyText}> 
+                    <Typography className="alloy-details__text-item" variant="h2"> <b> Szczegóły stopu:  </b> {alloy.name} </Typography>
+                    <Typography className="alloy-details__text-item" variant="h4"> <b> Grupa stopów: </b> Lorem ipsum dolor sit amet {alloy.group} </Typography>
+                    <Typography className="alloy-details__text-item" variant="p"> <b> Autor: </b> Lorem ipsum dolor sit amet {alloy.author} </Typography>
+                </div>
+                <div className={classes.alloyAccordions}> 
+                    {attributesMarkup}
                 </div>
             </Container>
         )

@@ -16,19 +16,19 @@ let footerComponent = (
    
 )
 
-if (mobileView) {
-    footerComponent = (
-        <IconButton color="inherit" aria-label="open drawer" className="footer__icon">
-            <MenuIcon />
-        </IconButton>
-    )
-}
+// if (mobileView) {
+//     footerComponent = (
+//         <IconButton color="inherit" aria-label="open drawer" className="footer__icon">
+//             <MenuIcon />
+//         </IconButton>
+//     )
+// }
 
 export default function BottomAppBar() {
   return (
     <React.Fragment>
       <CssBaseline />
-      <AppBar className="footer" position="fixed" color="primary" sx={{ top: 'auto', bottom: 0 }}>
+      <AppBar className="footer" color="primary" sx={{ top: 'auto', bottom: 0 }}>
         <Toolbar className="footer__bar" >
           {footerComponent}
         </Toolbar>
