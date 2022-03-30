@@ -48,11 +48,11 @@ class Navigation extends Component {
     : ( 
       <> 
         <div className="nav-container__user-action">
-          <Button className="nav-container__btn" color="inherit" component={Link} to={`/user/${email}`}> {mobileView ? <PersonIcon /> :  'Profil:' +  <span> {name} </span> } </Button>
+          <Button className="nav-container__btn" color="inherit" component={Link} to={`/user/${email}`}> {mobileView ? <PersonIcon /> :  'Profil:'} <span> {name} </span> </Button>
           <Button className="nav-container__btn nav-container__btn--logout" tip="Logout" onClick={this.handleLogout}> {mobileView ? <LogoutIcon /> :  'Wyloguj' } </Button>
         </div>
       </>
-    )
+    ) 
     
     return (
       <AppBar>

@@ -177,6 +177,9 @@ body .user-profile {
     align-items: center;
     justify-content: space-around;
     position: relative; }
+    @media (min-width: 768px) {
+      body .user-profile__item {
+        justify-content: center; } }
     body .user-profile__item p,
     body .user-profile__item a {
       display: flex;
@@ -184,6 +187,8 @@ body .user-profile {
       justify-content: center;
       font-size: 16px;
       line-height: 18px; }
+    body .user-profile__item a {
+      margin-left: 16px; }
     body .user-profile__item svg {
       margin-right: 16px;
       margin-left: 0; }
@@ -435,9 +440,6 @@ body .search {
       @media (min-width: 768px) {
         body .search .search-queries__item {
           width: 70%; } }
-      @media (min-width: 1200px) {
-        body .search .search-queries__item {
-          width: 30%; } }
       body .search .search-queries__item:not(:last-child) {
         margin-right: 30px; }
     body .search .search-queries__button {

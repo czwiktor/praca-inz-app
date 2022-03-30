@@ -80,6 +80,14 @@ class Profile extends Component {
                 )}
               </div>
               <hr />
+              <div className="user-profile__item">
+                {role && (
+                  <Typography variant="body2">
+                    <EngineeringIcon /> Uprawnienia: {role}
+                  </Typography>
+                )}
+              </div>
+              <hr />
               {/* <span>Joined {dayjs(createdAt).format('MMM YYYY')}</span> */}
             </div>
             <div className="user-profile__button">

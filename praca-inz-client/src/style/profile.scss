@@ -61,6 +61,10 @@ body .user-profile {
         justify-content: space-around;
         position: relative;
 
+        @include breakpoint(medium) {
+            justify-content: center;
+        }
+
         p, 
         a {
             display: flex;
@@ -69,6 +73,10 @@ body .user-profile {
             font-size: 16px;
             line-height: 18px;
             
+        }
+
+        a {
+            margin-left: 16px;
         }
 
         svg {

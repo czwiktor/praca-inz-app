@@ -29,7 +29,6 @@ body .search {
             flex-direction: row;
         }
     
-    
         &__text {
             display: flex;
             justify-content: space-between;
@@ -77,12 +76,6 @@ body .search {
             @include breakpoint(medium) {
                 width: 70%;
             }
-    
-    
-            @include breakpoint(large) {
-                width: 30%;
-            }
-    
     
             &:not(:last-child) {
                 margin-right: 30px;
