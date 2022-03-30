@@ -1,0 +1,132 @@
+@import './colors.scss';
+@import './mixins.scss';
+
+body .alloy-details {
+    width: 100%;
+    @include breakpoint(medium) {
+        padding: 64px 48px;
+    }
+
+    &__text {
+        margin: 8px 0 4px;
+        box-shadow: 0 0 15px 0 $shadow-light;
+        background-color: $background-light;
+        border-radius: 5px;
+        padding: 16px;
+
+        @include breakpoint(medium) {
+            margin: 40px 0 32px;
+        }
+       
+        b {
+            color: $primary-light;
+        }
+    }
+
+    &__text-item {
+        margin-bottom: 16px;
+        font-size: 18px;
+
+        @include breakpoint(medium) {
+            font-size: 32px;
+            line-height: 40px;
+        }
+
+        &:last-child {
+            margin-left: auto;
+            text-align: right;
+        }
+    }
+}
+
+body .alloy-table {
+    $c: &;
+
+    padding: 4px;
+    margin: 8px 0 0;
+    background-color: $background-light;
+    transition: all .3s linear;
+    @include breakpoint(medium) {
+        margin: 30px 0 60px;
+    }
+
+    &:hover {
+        background-color: $primary-light;
+        color: $white;
+    }
+
+    &__header {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        justify-content: space-around;
+    }
+}
+
+body .alloys {
+    height: 100%;
+    width: 100%;
+    padding: 0px;
+    margin: 0 auto;
+    @include breakpoint(medium) {
+        margin: 60px auto;
+    }
+    
+    &__container {
+       width: 100%;
+       margin: 20px 0 90px;
+       align-items: center;
+       justify-content: center;
+    }
+
+    &__item {
+        background-color: #fff;
+        width: 100%;
+        align-items: center;
+        justify-content: center;
+        padding: 12px 48px;
+        cursor: default;
+    }
+}
+
+body .card-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    padding: 32px 12px;
+    transition: all .3s linear;
+    background-color: #f9f4f2;
+    box-shadow: 0 0 15px 0 $shadow-light;
+
+    &:hover {
+        background-color: $primary-light;
+        color: $contrastText;
+
+    }
+
+    &__header {
+
+    }
+
+    &__content {
+        
+    }
+
+    &__button {
+        width: 90%;
+        min-width: 200px;
+        background-color: $secondary-light;
+        color: $contrastText;
+        transition: all .3s linear;
+
+        &:hover {
+            background-color: $secondary-dark;
+            color: $contrastText;
+           
+        }
+    }
+}
+

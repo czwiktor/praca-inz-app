@@ -25,6 +25,7 @@ body {
             display: block;
             text-align: center;
             transition: all .3s ease-in;
+            
 
             &:not(:last-child) {
                 margin-right: 16px;
@@ -86,9 +87,9 @@ header {
     background-color: $background-dark-blue;
     max-height: 80px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     font-size: calc(10px + 2vmin);
     color: $contrastText;
     text-align: center;padding-bottom: 8px;
@@ -98,11 +99,11 @@ header {
 .container {
     display: flex;
     overflow: auto;
-    width: 90%;
+    width: 100%;
     height: 100%;
     background-color: #fff;
     box-shadow: 0 0 15px 0 $shadow-light, 0 0 8px 0 $shadow-light;
-    margin: 70px 4px 0;
+    margin: 70px auto 0;
     @include breakpoint(small) {
         max-width: 768px;
         padding: 8px 8px;
@@ -110,7 +111,7 @@ header {
 
     @include breakpoint(medium) {
         max-width: 1024px;
-        width: 100%;
+        width: 90%;
         padding: 16px 24px;
         margin: 30px auto 120px;
     }
@@ -166,179 +167,8 @@ header {
         }
     }
 
-    .user-profile {
-        width: 90%;
-        padding: 16px;
-        box-shadow: 0 0 15px 0 $shadow-light;
-        background-color: $background-light;
-        border-radius: 15px;
-        margin: 60px 60px;
-
-        &__image-wrapper {
-            box-shadow: 0 0 15px 0 $shadow-light;
-            padding: 16px;
-        }
-
-        &__profile-image {
-            max-width: 420px;
-            max-height: 400px;
-            display: block;
-
-        }
-
-        &__profile-details {
-            width: 100%;
-        }
-
-        &__button {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-
-            button {
-                width: 60%;
-                background-color: $background-dark-blue;
-                color: white;
-                fill: white;
-                
-                border-radius: 5px;
-            }
-        }
-    }
-
-    .alloy-details {
-        width: 100%;
-        @include breakpoint(medium) {
-            padding: 64px 48px;
-        }
-
-        &__text {
-            margin: 8px 0 4px;
-            box-shadow: 0 0 15px 0 $shadow-light;
-            background-color: $background-light;
-            border-radius: 5px;
-            padding: 16px;
-
-            @include breakpoint(medium) {
-                margin: 40px 0 32px;
-            }
-           
-            b {
-                color: $primary-light;
-            }
-        }
-    
-        &__text-item {
-            margin-bottom: 16px;
-            font-size: 18px;
-
-            @include breakpoint(medium) {
-                font-size: 32px;
-                line-height: 40px;
-            }
-
-            &:last-child {
-                margin-left: auto;
-                text-align: right;
-            }
-        }
-    }
-
-    .alloy-table {
-        $c: &;
-
-        padding: 4px;
-        margin: 8px 0 0;
-        background-color: $background-light;
-        transition: all .3s linear;
-        @include breakpoint(medium) {
-            margin: 30px 0 60px;
-        }
-
-        &:hover {
-            background-color: $primary-light;
-            color: $white;
-        }
-
-        &__header {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            flex-direction: column;
-            justify-content: space-around;
-        }
-    }
-
     .Mui-expanded .alloy-table__header span {
         display: none;
-    }
-
-    .login {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 0 15px 0 $shadow-light, 0 0 8px 0 $shadow-light;
-        border: 1px solid $border;
-        border-radius: 1%;
-        width: 100%;
-        height: 60%;
-        margin: 25% 1%;
-        @include breakpoint(medium) {
-            height: 60%;
-            width: 80%;
-            margin: 20% 10%;
-        }
-
-        &__container {
-            padding: 12px 8px 20px;
-            width: 90%;
-            min-width: 300px;
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-            @include breakpoint(medium) {
-                padding: 20px 16px 60px;
-                min-width: 400px;
-                align-items: center;
-            }
-        }
-    
-        &__header {
-            margin-bottom: 54px;
-            text-align: center;
-            padding-bottom: 8px;
-            width: 100%;
-            border-bottom: 1px solid gray;
-            @include breakpoint(medium) {
-                margin-bottom: 82px;
-                width: 60%;
-            }
-        }
-    
-        &__field {
-            width: 90%;
-            margin: 0 auto 20px;
-            @include breakpoint(medium) {
-                margin: 0 auto 32px;
-            }
-        }
-
-        &__button {
-            margin-bottom: 16px;
-            @include breakpoint(medium) {
-                margin-bottom: 24px;
-            }
-        }
-
-        p {
-            font-size: 16px;
-            font-weight: 400;
-            line-height: 20px;
-            margin: 16px 0;
-        }
-        
-        
     }
 
     .button {
@@ -354,205 +184,8 @@ header {
             background-color: $primary-light;
         }
     }
-
-    .registration {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 0 15px 0 $shadow-light, 0 0 8px 0 $shadow-light;
-        border: 1px solid $border;
-        border-radius: 1%;
-    
-        &__container {
-            
-            padding: 12px 8px 20px;
-            width: 100%;
-            min-width: 300px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-
-            @include breakpoint(medium) {
-                padding: 20px 16px 60px;
-                min-width: 400px;
-            }
-        
-            @include breakpoint(big) {
-                min-width: 600px;
-            }
-
-            form {
-                display: flex;
-                width: 100%;
-                flex-direction: column;
-                align-items: center;
-            }
-        }
-    
-        &__header {
-            margin-bottom: 24px;
-            text-align: center;
-            padding-bottom: 8px;
-            width: 100%;
-            border-bottom: 1px solid gray;
-            @include breakpoint(medium) {
-                margin-bottom: 32px;
-            }
-        }
-    
-        &__input {
-            width: 80%;
-            margin-bottom: 20px;
-            @include breakpoint(medium) {
-                margin-bottom: 32px;
-            }
-        }
-
-        &__button {
-            width: 50%;
-            margin-bottom: 16px;
-            @include breakpoint(medium) {
-                margin-bottom: 24px;
-            }
-        }
-    }
-
-    .alloys {
-        height: 100%;
-        width: 100%;
-        padding: 0px;
-        margin: 0 auto;
-        
-        &__container {
-           width: 100%;
-           margin: 20px 0 90px;
-           align-items: center;
-           justify-content: center;
-        }
-
-        &__item {
-            background-color: #fff;
-            width: 100%;
-            align-items: center;
-            justify-content: center;
-            padding: 12px 48px;
-            cursor: default;
-        }
-    }
-
-    .card-item {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        width: 100%;
-        padding: 32px 12px;
-        transition: all .3s linear;
-        background-color: #f9f4f2;
-        box-shadow: 0 0 15px 0 $shadow-light;
-
-        &:hover {
-            background-color: $primary-light;
-            color: $contrastText;
-
-        }
-
-        &__header {
-
-        }
-
-        &__content {
-            
-        }
-
-        &__button {
-            width: 90%;
-            min-width: 200px;
-            background-color: $secondary-light;
-            color: $contrastText;
-            transition: all .3s linear;
-
-            &:hover {
-                background-color: $secondary-dark;
-                color: $contrastText;
-               
-            }
-        }
-    }
 }
 
-.search-queries {
-    display: flex;
-    flex-wrap: wrap;
-    width: 100%;
-    padding: 16px;
-
-    &__text {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 8px;
-    }
-
-    h1 {
-        display: block;
-        width: 100%;
-    }
-
-    h2 {
-        text-align: center;
-    }
-
-    &__form {
-        form {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        width: 100%;
-    }
-
-    &__help {
-        margin-top: auto;
-        font-size: 10px;
-    }
-
-    &__item {
-        margin-bottom: 30px;
-        width: 30%;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        border: 1px solid $border;
-        background-color: white;
-        padding: 16px;
-        box-shadow: 0 0 15px 0 $shadow-light;
-
-        &:not(:last-child) {
-            margin-right: 30px;
-        }
-    }
-
-    &__button {
-        width: 40%;
-    }
-}
-
-.search-results {
-    border-top: 2px solid $border;
-    margin-top: 30px;
-
-    h1 {
-        margin-bottom: 24px;
-    }
-}
-
-
-
-
-
-
-
-
+@import './profile.scss';
+@import './alloy.scss';
+@import './search.scss';

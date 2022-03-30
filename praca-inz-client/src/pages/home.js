@@ -26,7 +26,6 @@ class home extends Component {
     render() {
 
         const { alloys, loading } = this.props.data;
-        console.log(loading);
         const { authenticated } = this.props.user;
 
         const notAuthMarkup = (<> <div className="alert-modal"> <p> Zawartość dostępna tylko dla zalogowanych użytkowników </p> </div> </>);

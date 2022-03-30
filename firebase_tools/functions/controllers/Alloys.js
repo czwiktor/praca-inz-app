@@ -701,9 +701,9 @@ class Alloy {
     constructor (data) {
         this.id = data.alloy_id;
         this.name = data.alloy_name;
-        this.date = data.alloy_date;
-        this.group = data.alloys_group;
-        this.author = data.alloy_author;
+        this.date = data.date;
+        this.group = data.group;
+        this.author = data.author;
         this.composition = {
             Al: data.composition.Al,
             Cu: data.composition.Cu,
@@ -730,50 +730,7 @@ class Alloy {
 
 class compQuery {
     constructor (query) {
-        this.Al = {
-            min: query.Al.min,
-            max: query.Al.max
-        };
-        this.Cr = {
-            min: query.Cr.min,
-            max: query.Cr.max
-        };
-        this.Cu = {
-            min: query.Cu.min,
-            max: query.Cu.max
-        };
-        this.Fe = {
-            min: query.Fe.min,
-            max: query.Fe.max
-        };
-        this.Mg = {
-            min: query.Mg.min,
-            max: query.Mg.max
-        };
-        this.Mn = {
-            min: query.Mn.min,
-            max: query.Mn.max
-        };
-        this.Ni = {
-            min: query.Ni.min,
-            max: query.Ni.max
-        };
-        this.Pb = {
-            min: query.Pb.min,
-            max: query.Pb.max
-        };
-        this.Ti = {
-            min: query.Ti.min,
-            max: query.Ti.max
-        };
-        this.Si = {
-            min: query.Si.min,
-            max: query.Si.max
-        };
-        this.Zn = {
-            min: query.Zn.min,
-            max: query.Zn.max
-        };
+        this[query] = value >= 0.1
     }
 }
 

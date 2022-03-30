@@ -249,9 +249,9 @@ class search extends Component {
         const propString = 'properties';
         const groupString = 'group';
         
-        let alloysMarkup = alloys.map((alloy) => <Grid item xs={6} md={6} lg={4}> <Alloy key={alloy.id} alloy={alloy} /> </Grid> )
-        let propsMarkup = propses.map((prop) => <div> <RangeSlider key={prop.id} prop={prop} /> </div> )
-        let elementsMarkup = <div> <MultipleSelectElements elements={elements} named={compString} /> </div>
+        let alloysMarkup = alloys.map((alloy) => <Grid item xs={12} md={8} lg={4}> <Alloy key={alloy.id} alloy={alloy} /> </Grid> )
+        let propsMarkup = propses.map((prop) => <Grid item xs={12} md={8} lg={4}> <RangeSlider key={prop.id} prop={prop} /> </Grid> )
+        let elementsMarkup = <Grid item xs={12} md={8} lg={4}> <MultipleSelectElements elements={elements} named={compString} /> </Grid>
         let loading = loading1 && loading2 && loading3;
 
         let finalMarkup = !loading ? (
@@ -260,7 +260,7 @@ class search extends Component {
                     <h1> Kryteria wyszukiwania: </h1>
                     <div className="search-queries__item">
                         <h2> Właściwości mechaniczne </h2>
-                        <div class="props-container__selects">
+                        <div class="search-queries__selects">
                             {propsMarkup}
                         </div>
 
@@ -268,7 +268,7 @@ class search extends Component {
                     </div>
                     <div className="search-queries__item">
                         <h2> Występowanie pierwiastków chemicznych </h2>
-                        <div class="props-container__selects">
+                        <div class="search-queries__selects">
                             {elementsMarkup}
                         </div>
 
@@ -276,7 +276,7 @@ class search extends Component {
                     </div>
                     <div className="search-queries__item">
                         <h2> Grupy stopów </h2>
-                        <div class="props-container__selects">
+                        <div class="search-queries__selects">
                             {elementsMarkup}
                         </div>
                         <span className="search-queries__help"> W przypadku nie wybrania żadnego z elementów, kryterium jest pomijane </span>
@@ -302,7 +302,7 @@ class search extends Component {
                     <div className="search-results__header">
                         <h1> Wyniki wyszukiwania ({count}): </h1>
                     </div>
-                    <Grid container spacing={2}>
+                    <Grid container spacing={5}>
                         {alloysMarkup}
                     </Grid>
                 </div>
@@ -313,7 +313,7 @@ class search extends Component {
         );
 
         return (
-            <Box sx={{ flexGrow: 1 }}>
+            <Box className="search" sx={{ flexGrow: 1 }}>
                 {finalMarkup}
             </Box>
         );

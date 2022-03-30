@@ -13,9 +13,11 @@ import Paper from '@material-ui/core/Paper';
 // Icons
 
 import NoImg from '../media/no-img.png';
-import LocationOn from '@mui/icons-material/LocationOn';
+
 import LinkIcon from '@mui/icons-material/Link';
-import KeyboardReturn from '@mui/icons-material/KeyboardReturn';
+import EngineeringIcon from '@mui/icons-material/Engineering';
+import PersonIcon from '@mui/icons-material/Person';
+
 //Redux
 import { connect } from 'react-redux';
 import { logoutUser, getUserData } from '../redux/actions/userActions';
@@ -59,34 +61,39 @@ class Profile extends Component {
             </div>
             <hr />
             <div className="user-profile__profile-details">
-              Adres e-mail:
-              <MuiLink component={Link} to={`/user/${email}`} color="primary" variant="h5">
-                @{email}
-              </MuiLink>
+              <div className="user-profile__item">
+                <LinkIcon/> <Typography variant="body2">  E-mail:  </Typography>
+                <MuiLink component={Link} to={`/user/${email}`} color="primary" variant="h5">
+                  {email}
+                </MuiLink>
+              </div>
               <hr />
-              {name && <Typography variant="body2">Nazwa użytkownika: {name}</Typography>}
+              <div className="user-profile__item">
+                {name && <Typography variant="body2"> <PersonIcon/> Nazwa użytkownika: {name}</Typography>}
+              </div>
               <hr />
-              {role && (
-                <Fragment>
-                  <LocationOn color="primary" /> Rola: <span>{role}</span>
-                  <hr />
-                </Fragment>
-              )}
-              
+              <div className="user-profile__item">
+                {role && (
+                  <Typography variant="body2">
+                    <EngineeringIcon /> Rola: {role}
+                  </Typography>
+                )}
+              </div>
+              <hr />
               {/* <span>Joined {dayjs(createdAt).format('MMM YYYY')}</span> */}
             </div>
             <div className="user-profile__button">
               <MyButton tip="Logout" onClick={this.handleLogout}>
-                <KeyboardReturn color="primary" /> Wyloguj
+                Wyloguj
               </MyButton>
             </div>
         </Paper>
       ) : (
-        <Paper className={classes.paper}>
+        <Paper className='user-profile'>
           <Typography variant="body2" align="center">
-            No profile found, please login again
+            Brak profilu, spróbuj zalogować się ponownie lub utwórz nowe konto.
           </Typography>
-          <div className={classes.buttons}>
+          <div className='user-profile__profile-details'>
             <Button
               variant="contained"
               color="primary"
@@ -101,7 +108,7 @@ class Profile extends Component {
               component={Link}
               to="/signup"
             >
-              Signup
+              Rejestracja
             </Button>
           </div>
         </Paper>
