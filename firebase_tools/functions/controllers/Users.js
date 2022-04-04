@@ -16,7 +16,8 @@ exports.register = (req, res) => {
         password: req.body.password,
         confirmPassword: req.body.confirmPassword,
         name: req.body.name,
-        role: 'user'
+        role: 'user',
+        creationDate: new Date().toISOString()
     };
 
     const {errors, valid} = validateRegistrationData(newUser);
@@ -25,7 +26,8 @@ exports.register = (req, res) => {
         return res.status(400).json(errors);
     }
 
-    db.doc(`/users/${newUser.email}`)
+    db
+        .doc(`/users/${newUser.email}`)
         .get()
         .then((doc) => {
             if (doc.exists) {
@@ -94,20 +96,21 @@ exports.login = (req, res) => {
 // Get any user's details
 exports.getUserDetails = (req, res) => {
     let userData = {};
-    db.doc(`/users/${req.params.email}`)
-      .get()
-      .then((doc) => {
+    db
+        .doc(`/users/${req.params.email}`)
+        .get()
+        .then((doc) => {
         if (doc.exists) {
-          userData.user = doc.data();
-          return res.json(userData);
+            userData.user = doc.data();
+            return res.json(userData);
         } else {
-          return res.status(404).json({ errror: "User not found" });
+            return res.status(404).json({ errror: "User not found" });
         }
-      })
-      .catch((err) => {
+        })
+        .catch((err) => {
         console.error(err);
         return res.status(500).json({ error: err.code });
-      });
+        });
   };
 
 // Get own user details

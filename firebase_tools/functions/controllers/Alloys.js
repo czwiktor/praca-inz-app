@@ -728,33 +728,6 @@ class Alloy {
     }
 }
 
-class compQuery {
-    constructor (query) {
-        this[query] = value >= 0.1
-    }
-}
-
-class propsQuery {
-    constructor (query) {
-        this['R0,2'] = {
-            min: query['R0,2'].min,
-            max: query['R0,2'].max 
-        };
-        this['Rm'] = {
-            min: query['Rm'].min,
-            max: query['Rm'].max
-        };
-        this['A5'] = {
-            min: query['A5'].min,
-            max: query['A5'].max
-        };
-        this['HB'] = {
-            min: query['HB'].min,
-            max: query['HB'].max
-        };
-    }
-}
-
 const resolveQueries = (alloys, compQuery, propQuery) => {
     let result = [];
     let resultsSecond = [];
@@ -769,14 +742,13 @@ const resolveQueries = (alloys, compQuery, propQuery) => {
 
         if (compQuery) {
             propsNames = Object.keys(compQuery);
-            let flag = true;
+            let flag = false;
 
             for (let i = 0; i < propsNames.length; i++) {
                 queryName = propsNames[i];
                 alloyProp = composition[queryName];
-                queryProp = compQuery[queryName];
-                if (alloyProp < queryProp['min'] || alloyProp > queryProp['max']) {
-                   flag = false;
+                if (alloyProp > 0) {
+                   flag = true;
                 }
             }
 
@@ -828,67 +800,41 @@ exports.queryAlloys = (req, res) => {
     const compQuery = queries.composition;
     const propQuery = queries.props;
 
-    // if (groupQuery && groupQuery.length) {
-    //     queriedByGroup = true;
-    //     db
-    //         .collection('alloys')
-    //         .where('alloy_group', 'in', groupQuery)
-    //         .get()
-    //         .then((query) => {
-    //             let alloys= query.data();
-    //             result = resolveQueries(alloys, compQuery, propQuery);
-    //             return res.json(result);
-    //         })
-    //         .catch((error) => console.error(error));
-    // }
-
-    db
-        .collection('alloys')
-        .get()
-        .then((query) => {
-            let alloys = query;
-            if (!compQuery && !propQuery) {
-                let alloy;
-                query.forEach((doc) => {
-                    alloy = new Alloy(doc.data());
-                    result.push(alloy )
-                })
-            } else {
+    if (groupQuery && groupQuery.length) {
+        queriedByGroup = true;
+        db
+            .collection('alloys')
+            .where('alloy_group', 'in', groupQuery)
+            .get()
+            .then((query) => {
+                let alloys= query.data();
                 result = resolveQueries(alloys, compQuery, propQuery);
-            }
-        
-            return res.json(result);
-        })
-        .catch((error) => console.error(error));
+                return res.json(result);
+            })
+            .catch((error) => console.error(error));
+    } else {
+        db
+            .collection('alloys')
+            .get()
+            .then((query) => {
+                let alloys = query;
+                if (!compQuery && !propQuery) {
+                    let alloy;
+                    query.forEach((doc) => {
+                        alloy = new Alloy(doc.data());
+                        result.push(alloy )
+                    })
+                } else {
+                    result = resolveQueries(alloys, compQuery, propQuery);
+                }
+            
+                return res.json(result);
+            })
+            .catch((error) => console.error(error));
+    }
 };
 
 exports.addAlloy = (req, res) => {
-    class Alloy {
-        constructor (data) {
-            this.id = data.alloy_id;
-            this.name = data.alloy_name;
-            this.date = data.alloy_date;
-            this.group = data.alloys_group;
-            this.author = data.alloy_author;
-            this.composition = {
-                Al: data.composition.Al,
-                Cu: data.composition.Cu,
-                Fe: data.composition.Fe,
-                Mg: data.composition.Mg,
-                Ni: data.composition.Ni,
-                Si: data.composition.Si,
-                Zn: data.composition.Zn,
-                Others: data.composition.inne
-            }
-            this.props = {
-                R02: data.props['R0,2'],
-                Rm: data.props.Rm,
-                A5: data.props['A5'],
-                HB: data.props['HB']
-            }
-        }
-    }
-
     const data = {
         id: req.body.id,
         name: req.body.name,
@@ -901,7 +847,8 @@ exports.addAlloy = (req, res) => {
 
     const alloy = new Alloy(data);
 
-    db.collection('alloys')
+    db
+        .collection('alloys')
         .add(alloy)
         .then((query) => {
             query.id = req.body.name;
@@ -927,7 +874,8 @@ exports.addAllAlloys = (req, res) => {
 exports.getAlloy = (req, res) => {
     let alloy = {};
     let result = []
-    db.doc(`/alloys/${req.params.alloy_name}`)
+    db
+        .doc(`/alloys/${req.params.alloy_name}`)
         .get()
         .then((doc) => {
             alloy = new Alloy(doc.data());

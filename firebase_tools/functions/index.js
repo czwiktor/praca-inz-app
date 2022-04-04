@@ -20,7 +20,7 @@ app.get('/getProps', FBAuth, getAllProperties);
 app.get('/getElements', FBAuth, getAllElements);
 
 // Add an alloy
-app.get('/showDetails/:alloy_name',  FBAuth, getAlloy);
+app.get('/showDetails/:alloy_name', FBAuth, getAlloy);
 
 // Add an alloy
 app.post('/add', FBAuth, addAlloy);
@@ -29,7 +29,7 @@ app.post('/add', FBAuth, addAlloy);
 app.post('/addAll', FBAuth, addAllAlloys);
 
 // Get user details
-app.get('/user/:handle', getUserDetails);
+app.get('/user/:handle', FBAuth, getUserDetails);
 
 // Get Auth user details
 app.get('/user', FBAuth, getAuthenticatedUser);

@@ -28,11 +28,11 @@ class home extends Component {
         const { alloys, loading } = this.props.data;
         const { authenticated } = this.props.user;
 
-        const notAuthMarkup = (<> <div className="alert-modal"> <p> Zawartość dostępna tylko dla zalogowanych użytkowników </p> </div> </>);
-        const notAllowed = (<> <div className="alert-modal"> <p> Zawartość dostępna tylko dla zalogowanych użytkowników </p> </div> </>);
+        const notAuthMarkup = (<> <div className="alert-modal"> <h2> Brak uprawnień. </h2>
+            <p> Zawartość dostępna tylko dla zalogowanych użytkowników, z odpowiednimi uprawnieniami. </p> </div> 
+        </>);
         
-        let alloysMarkup  = authenticated ? !loading ? alloys.map((alloy) => <Grid className='alloys__item' item xs={12} md={6} lg={4}> <Alloy className='alloys__content' key={alloy.id} alloy={alloy} /> </Grid>) :  <Skeleton />  : notAuthMarkup;
-        //alloysMarkup = !notAllowed ? allosMarkup : notAllowedMarkup;
+        let alloysMarkup  = !loading ? authenticated  ? alloys.map((alloy) => <Grid className='alloys__item' item xs={12} md={6} lg={4}> <Alloy className='alloys__content' key={alloy.id} alloy={alloy} /> </Grid>) :  notAuthMarkup  : <Skeleton /> ;
 
         return (
             <Box className="alloys" sx={{ flexGrow: 1 }}>
@@ -40,13 +40,32 @@ class home extends Component {
                     Dobieranie stopów aluminium
                 </Typography>
 
+                <Typography variant="body2" className='alloys__text'>
+                    Aplikacja mająca na celu umożliwić studentom, technologom, pracownikom naukowym jak i każdemu zainteresowanemu dobrać odpowiednie stopy aluminium wedle zadanych kryteriów, tj:
+                    <ul>
+                        <li>
+                            Występowanie pierwiastków chemicznych (określenie czy dany pierwiastek występuje w składzie danego stopu)
+                        </li>
+
+                        <li>
+                            Przynależność do danej grupy stopów (okreslenie dominującego pierwiastka)
+                        </li>
+
+                        <li>
+                            Parametry wytrzymałościowe danego stopu (Wytrzymałość na ściskanie, wytrzymałość na rozciąganie, wydłużenie oraz twardość).
+                        </li>
+                    </ul>
+
+                    Aplikacja na podstawie ww. kryteriów zwraca z bazy danych odpowiadające im stopy (o ile takie się znajdują).
+                </Typography>
+{/* 
                 <Typography variant="h4" className='header-text'>
                     Lista wszystkich dostępnych w aplikacji stopów:
                 </Typography>
 
                 <Grid className="alloys__container" container spacing={5}>
                     {alloysMarkup}
-                </Grid>
+                </Grid> */}
             </Box>
         );
     }

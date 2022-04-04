@@ -7,15 +7,11 @@ import { TableHead } from '@material-ui/core';
 import { TableRow } from '@material-ui/core';
 import { Paper } from '@material-ui/core';
 
-function createData(name, properties) {
-  return {name, properties};
-}
-
 export default function BasicTable (attr) {
 
-  const atrib = attr.attributes.attribute;
+  const atrib = attr.attr[0];
   const rows = [];
-
+  console.log(attr);
   if (typeof atrib != 'undefined') {
     rows.push(atrib);
   }

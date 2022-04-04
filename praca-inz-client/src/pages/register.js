@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
+
 // Redux stuff
 import { connect } from 'react-redux';
 import { signupUser } from '../redux/actions/userActions';
@@ -59,12 +60,19 @@ class signup extends Component {
     });
   };
 
+  
+
   render() {
     const {
       classes,
       UI: { loading }
     } = this.props;
     const { errors } = this.state;
+    const { authenticated } = this.props.user;
+
+    if (authenticated) {
+      this.props.navigate('/');
+    }
 
     return (
       <Grid container className='registration'>

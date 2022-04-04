@@ -98,7 +98,7 @@ class Profile extends Component {
         </Paper>
       ) : (
         <Paper className='user-profile'>
-          <Typography variant="body2" align="center">
+          <Typography className="user-profile__error" variant="body2" align="center">
             Brak profilu, spróbuj zalogować się ponownie lub utwórz nowe konto.
           </Typography>
           <div className='user-profile__profile-details'>

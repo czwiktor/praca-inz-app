@@ -88,6 +88,27 @@ body .alloys {
         padding: 12px 48px;
         cursor: default;
     }
+
+    &__text {
+        font-size: 20px;
+        line-height: 24px;
+        border: 1px solid $shadow-light;
+        padding: 30px;
+        text-align: center;
+        box-shadow: 0 0 15px 0 $shadow-light;
+        margin: 60px auto;
+        width: 100%;
+        background-color: $background-light-gray;
+        @include breakpoint(medium) {
+            width: 80%;
+        }
+
+        ul {
+            text-align: left;
+            font-size: 16px;
+            margin: 32px 0;
+        }
+    }
 }
 
 body .card-item {

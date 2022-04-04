@@ -52,6 +52,11 @@ class login extends Component {
       UI: { loading }
     } = this.props;
     const { errors } = this.state;
+    const { authenticated } = this.props.user;
+
+    if (authenticated) {
+      this.props.navigate('/');
+    }
 
     return (
       <Grid container className='login'>

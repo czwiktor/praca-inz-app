@@ -1,0 +1,77 @@
+body .search {
+  width: 100%; }
+  body .search .search-results {
+    border-top: 2px solid #f9f1f2;
+    margin-top: 30px;
+    width: 90%;
+    margin: 30px auto 0;
+    padding: 8px; }
+    body .search .search-results h1 {
+      margin-bottom: 24px; }
+  body .search .search-queries {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    width: 100%;
+    padding: 16px;
+    align-items: center;
+    justify-content: center; }
+    @media (min-width: 1024px) {
+      body .search .search-queries {
+        flex-direction: row;
+        width: 90%;
+        margin: 30px auto; } }
+    body .search .search-queries__text {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px; }
+    body .search .search-queries h1 {
+      display: block;
+      width: 100%; }
+    body .search .search-queries h2 {
+      text-align: center;
+      margin: 0 0 16px; }
+    body .search .search-queries__form {
+      width: 100%; }
+      body .search .search-queries__form form {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column; }
+    body .search .search-queries__help {
+      margin-top: auto;
+      font-size: 10px; }
+    body .search .search-queries__item {
+      margin-bottom: 30px;
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      justify-content: center;
+      text-align: center;
+      border: 1px solid rgba(70, 72, 75, 0.2);
+      background-color: rgba(113, 117, 117, 0.2);
+      padding: 16px;
+      box-shadow: 0 0 15px 0 rgba(70, 72, 75, 0.2);
+      width: 100%; }
+      @media (min-width: 768px) {
+        body .search .search-queries__item {
+          width: 70%;
+          padding: 32px 16px; } }
+      body .search .search-queries__item:not(:last-child) {
+        margin-right: 30px; }
+    body .search .search-queries__button {
+      width: 100%;
+      font-size: 16px;
+      line-height: 24px;
+      margin: 16px 0 8px;
+      letter-spacing: .6px; }
+      @media (min-width: 768px) {
+        body .search .search-queries__button {
+          width: 30%;
+          padding: 12px; } }
+    body .search .search-queries__selects {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center; }

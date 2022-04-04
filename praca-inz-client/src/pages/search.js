@@ -14,11 +14,13 @@ import Select from '@mui/material/Select';
 import Checkbox from '@mui/material/Checkbox';
 import Button from '@material-ui/core/Button';
 import CircularProgress from '@material-ui/core/CircularProgress';
+import Typography from '@material-ui/core/Typography';
 
 import { connect } from 'react-redux';
 import { getSearchedAlloys, getProps, getElements } from '../redux/actions/dataActions';
 import { withStyles } from '@material-ui/core';
 import { MultiSelectUnstyled } from '@mui/base/SelectUnstyled';
+
 
 const styles = (theme) => ({
     ...theme.spreadIt
@@ -244,19 +246,28 @@ class search extends Component {
 
     render() {
         const { alloys, loading1, propses, loading2, elements, loading3 } = this.props.data;
+        const { authenticated } = this.props.user;
+
         let count = alloys.length;
         const compString = 'composition';
         const propString = 'properties';
         const groupString = 'group';
+
+        const notAuthMarkup = (<> <div className="alert-modal"> <h2> Brak uprawnień. </h2>
+          <p> Zawartość dostępna tylko dla zalogowanych użytkowników, z odpowiednimi uprawnieniami. </p> </div> 
+        </>);
         
-        let alloysMarkup = alloys.map((alloy) => <Grid item xs={12} md={8} lg={4}> <Alloy key={alloy.id} alloy={alloy} /> </Grid> )
-        let propsMarkup = propses.map((prop) => <Grid item xs={12} md={8} lg={4}> <RangeSlider key={prop.id} prop={prop} /> </Grid> )
-        let elementsMarkup = <Grid item xs={12} md={8} lg={4}> <MultipleSelectElements elements={elements} named={compString} /> </Grid>
+        let alloysMarkup = alloys.map((alloy) => <Grid item xs={12} md={4}> <Alloy key={alloy.id} alloy={alloy} /> </Grid> )
+        let propsMarkup = propses.map((prop) => <Grid item xs={12} md={8}> <RangeSlider key={prop.id} prop={prop} /> </Grid> )
+        let elementsMarkup = <Grid item xs={12} md={8}> <MultipleSelectElements elements={elements} named={compString} /> </Grid>
         let loading = loading1 && loading2 && loading3;
 
         let finalMarkup = !loading ? (
-            <>
+            authenticated ? (<>
                 <div className="search-queries">
+                    <Typography variant="h2" className='header-text'>
+                        Wyszukiwanie stopów aluminium
+                    </Typography>
                     <h1> Kryteria wyszukiwania: </h1>
                     <div className="search-queries__item">
                         <h2> Właściwości mechaniczne </h2>
@@ -295,6 +306,19 @@ class search extends Component {
                                 <CircularProgress size={30} className="progress" />
                             )}
                             </Button>
+
+                            <Button
+                            type="submit"
+                            variant="contained"
+                            color="secondary"
+                            className='search-queries__button'
+                            disabled={loading}
+                            >
+                            Pokaż wszystkie
+                            {loading && (
+                                <CircularProgress size={30} className="progress" />
+                            )}
+                            </Button>
                         </form>
                     </div>
                 </div>
@@ -307,7 +331,8 @@ class search extends Component {
                     </Grid>
                 </div>
                
-            </>
+            </>)
+            : notAuthMarkup
         ) : ( 
             <Skeleton /> 
         );
@@ -327,12 +352,15 @@ search.propTypes = {
     propses: PropTypes.object.isRequired,
     alloys: PropTypes.object.isRequired,
     params: PropTypes.object.isRequired,
-    elements: PropTypes.object.isRequired
+    elements: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => ({
     params: state.params,
-    data: state.data
+    data: state.data,
+    user: state.user,
+    authenticated: state.user.authenticated
 });
 
 const mapActionsToProps = {

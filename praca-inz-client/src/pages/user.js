@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Profile from '../components/Profile';
 import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
 
 import { connect } from 'react-redux';
 import { getUserData } from '../redux/actions/dataActions';
@@ -22,6 +23,9 @@ class user extends Component {
 
     return (
       <Grid container spacing={16}>
+        <Typography variant="h2" className='header-text'>
+          Profil użytkownika
+        </Typography>
         <Grid xs={12}>
           {userData === null ? (
             ''
