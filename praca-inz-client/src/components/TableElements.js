@@ -11,6 +11,7 @@ export default function BasicTable (attr) {
 
   const atrib = attr.attr[0];
   const rows = [];
+  
   console.log(attr);
   if (typeof atrib != 'undefined') {
     rows.push(atrib);
