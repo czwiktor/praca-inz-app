@@ -64,14 +64,11 @@ body .alloy-table {
     }
 }
 
-body .alloys {
+body .home {
     height: 100%;
     width: 100%;
     padding: 0px;
     margin: 0 auto;
-    @include breakpoint(medium) {
-        margin: 60px auto;
-    }
     
     &__container {
        width: 100%;

@@ -43,27 +43,24 @@ body .alloy-table {
     flex-direction: column;
     justify-content: space-around; }
 
-body .alloys {
+body .home {
   height: 100%;
   width: 100%;
   padding: 0px;
   margin: 0 auto; }
-  @media (min-width: 768px) {
-    body .alloys {
-      margin: 60px auto; } }
-  body .alloys__container {
+  body .home__container {
     width: 100%;
     margin: 20px 0 90px;
     align-items: center;
     justify-content: center; }
-  body .alloys__item {
+  body .home__item {
     background-color: #fff;
     width: 100%;
     align-items: center;
     justify-content: center;
     padding: 12px 48px;
     cursor: default; }
-  body .alloys__text {
+  body .home__text {
     font-size: 20px;
     line-height: 24px;
     border: 1px solid rgba(70, 72, 75, 0.2);
@@ -74,9 +71,9 @@ body .alloys {
     width: 100%;
     background-color: rgba(113, 117, 117, 0.2); }
     @media (min-width: 768px) {
-      body .alloys__text {
+      body .home__text {
         width: 80%; } }
-    body .alloys__text ul {
+    body .home__text ul {
       text-align: left;
       font-size: 16px;
       margin: 32px 0; }

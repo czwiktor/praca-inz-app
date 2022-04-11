@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { Link } from 'react-router-dom';
+import dayjs from 'dayjs';
 // import dayjs from 'dayjs';
 import MyButton from '../util/MyButton';
 import ProfileSkeleton from './ProfileSkeleton';
@@ -38,34 +39,32 @@ class Profile extends Component {
       classes,
       user: {
         credentials: { email, role, createdAt, name },
+        access,
         loading,
         authenticated
       }
     } = this.props;
 
+    let accessMarkup = [];
+    if (access) {
+      for (let [key, value] of Object.entries(access)) {
+        if (key != 'id') accessMarkup.push(` ${key} = ${value ? 'Tak' : 'Nie'}`)
+      };
+    }
+
     let profileMarkup = !loading ? (
       authenticated ? (
-        <Paper className='user-profile'>
+        <div className='user-profile'>
             <div className="user-profile__image-wrapper">
               <img src={NoImg} alt="profile" className="user-profile__profile-image" />
-              {/* <input
-                type="file"
-                id="imageInput"
-                hidden="hidden"
-              />
-              <MyButton
-                tip="Edit profile picture"
-                btnClassName="button"
-              >
-              </MyButton> */}
             </div>
             <hr />
             <div className="user-profile__profile-details">
               <div className="user-profile__item">
                 <LinkIcon/> <Typography variant="body2">  E-mail:  </Typography>
-                <MuiLink component={Link} to={`/user/${email}`} color="primary" variant="h5">
+                <a href={`mailto:${email}`} variant="h5">
                   {email}
-                </MuiLink>
+                </a>
               </div>
               <hr />
               <div className="user-profile__item">
@@ -81,23 +80,23 @@ class Profile extends Component {
               </div>
               <hr />
               <div className="user-profile__item">
-                {role && (
-                  <Typography variant="body2">
-                    <EngineeringIcon /> Uprawnienia: {role}
-                  </Typography>
+                {access && (
+                  <ul>Uprawnienia:
+                    {accessMarkup.map((role) => <li> {role} </li>)}
+                  </ul>
                 )}
               </div>
               <hr />
-              {/* <span>Joined {dayjs(createdAt).format('MMM YYYY')}</span> */}
+              <span>Dołączył: {dayjs(createdAt).format('MMM YYYY')}</span>
+              <div className="user-profile__button">
+                <MyButton tip="Logout" onClick={this.handleLogout}>
+                  Wyloguj
+                </MyButton>
+              </div>
             </div>
-            <div className="user-profile__button">
-              <MyButton tip="Logout" onClick={this.handleLogout}>
-                Wyloguj
-              </MyButton>
-            </div>
-        </Paper>
+        </div>
       ) : (
-        <Paper className='user-profile'>
+        <div className='user-profile'>
           <Typography className="user-profile__error" variant="body2" align="center">
             Brak profilu, spróbuj zalogować się ponownie lub utwórz nowe konto.
           </Typography>
@@ -119,7 +118,7 @@ class Profile extends Component {
               Rejestracja
             </Button>
           </div>
-        </Paper>
+        </div>
       )
     ) : (
       <ProfileSkeleton />

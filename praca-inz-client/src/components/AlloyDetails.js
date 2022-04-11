@@ -1,8 +1,15 @@
 import React, { Component} from "react";
 import { Typography } from "@material-ui/core";
 import { Container } from '@material-ui/core';
-import TableProperties from './TableProps';
-import TableComposition from './TableElements';
+
+import FusionCharts from "fusioncharts/core";
+
+// include chart from viz folder - import ChartType from fusioncharts/viz/[ChartType];
+import Column2D from "fusioncharts/viz/column2d";
+
+// add chart as dependency - FusionCharts.addDep(ChartType);
+FusionCharts.addDep(Column2D);
+
 
 const classes = {
     main: 'alloy-details__item',
@@ -15,17 +22,75 @@ const classes = {
 class AlloyDetails extends Component {
     render() {
         const {alloy} = this.props;
-        let properties = [];
-        let composition = [];
+        const { props, composition } = this.props.alloy;
 
-        properties.push(alloy.props);
-        composition.push(alloy.composition);
-
-        console.log(properties);
+        console.log(props);
         console.log(composition);
 
-        let propertiesMarkup = <TableProperties attr={properties} />
-        let compositionMarkup = <TableComposition attr={composition} />
+        let propsArray = [];
+        let compArray = [];
+
+        if (props) {
+            for (const [key, value] of Object.entries(props)) {
+                let propObj = {
+                    label: key,
+                    value: value
+                }
+
+                propsArray.push(propObj);
+            }
+        }
+
+        if (composition) {
+            for (const [key, value] of Object.entries(composition)) {
+                let propObj = {
+                    label: key,
+                    value: value
+                }
+
+                compArray.push(propObj);
+            }
+        }
+
+                // instantiate the chart.
+        var chartInstanceComp = new FusionCharts({
+            type: "Column2D",
+            renderAt: "chart-container", // div container where chart will render
+            width: "600",
+            height: "400",
+            dataFormat: "json",
+            dataSource: {
+            // chart configuration
+            chart: {
+                caption: "Countries With Most Oil Reserves [2017-18]",
+                subcaption: "In MMbbl = One Million barrels",
+            },
+            // chart data
+            data: compArray
+            },
+        });
+
+        var chartInstanceProps = new FusionCharts({
+            type: "Column2D",
+            renderAt: "chart-container", // div container where chart will render
+            width: "600",
+            height: "400",
+            dataFormat: "json",
+            dataSource: {
+            // chart configuration
+            chart: {
+                caption: "Countries With Most Oil Reserves [2017-18]",
+                subcaption: "In MMbbl = One Million barrels",
+            },
+            // chart data
+            data: propsArray
+            },
+        });
+  
+  
+
+        let propertiesMarkup = chartInstanceComp.render();
+        let compositionMarkup = chartInstanceProps.render();
         
         return (
             <Container className="alloy-details">

@@ -32,15 +32,15 @@ class home extends Component {
             <p> Zawartość dostępna tylko dla zalogowanych użytkowników, z odpowiednimi uprawnieniami. </p> </div> 
         </>);
         
-        let alloysMarkup  = !loading ? authenticated  ? alloys.map((alloy) => <Grid className='alloys__item' item xs={12} md={6} lg={4}> <Alloy className='alloys__content' key={alloy.id} alloy={alloy} /> </Grid>) :  notAuthMarkup  : <Skeleton /> ;
+        let alloysMarkup  = !loading ? authenticated  ? alloys.map((alloy) => <Grid className='home__item' item xs={12} md={6} lg={4}> <Alloy className='home__content' key={alloy.id} alloy={alloy} /> </Grid>) :  notAuthMarkup  : <Skeleton /> ;
 
         return (
-            <Box className="alloys" sx={{ flexGrow: 1 }}>
+            <Box className="home" sx={{ flexGrow: 1 }}>
                 <Typography variant="h2" className='header-text'>
                     Dobieranie stopów aluminium
                 </Typography>
 
-                <Typography variant="body2" className='alloys__text'>
+                <Typography variant="body2" className='home__text'>
                     Aplikacja mająca na celu umożliwić studentom, technologom, pracownikom naukowym jak i każdemu zainteresowanemu dobrać odpowiednie stopy aluminium wedle zadanych kryteriów, tj:
                     <ul>
                         <li>
@@ -58,14 +58,6 @@ class home extends Component {
 
                     Aplikacja na podstawie ww. kryteriów zwraca z bazy danych odpowiadające im stopy (o ile takie się znajdują).
                 </Typography>
-{/* 
-                <Typography variant="h4" className='header-text'>
-                    Lista wszystkich dostępnych w aplikacji stopów:
-                </Typography>
-
-                <Grid className="alloys__container" container spacing={5}>
-                    {alloysMarkup}
-                </Grid> */}
             </Box>
         );
     }

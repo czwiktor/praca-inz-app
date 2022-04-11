@@ -1,4 +1,4 @@
-body {
+html, body {
   font-size: 14px;
   font-weight: 400;
   line-height: 18px;
@@ -60,7 +60,6 @@ body {
 
 header {
   background-color: #282c34;
-  max-height: 80px;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -68,7 +67,6 @@ header {
   font-size: calc(10px + 2vmin);
   color: #fff;
   text-align: center;
-  padding-bottom: 8px;
   width: 100%; }
 
 .container {
@@ -78,28 +76,24 @@ header {
   height: 100%;
   background-color: #fff;
   box-shadow: 0 0 15px 0 rgba(70, 72, 75, 0.2), 0 0 8px 0 rgba(70, 72, 75, 0.2);
-  margin: 70px auto 0; }
+  margin: 0 auto;
+  padding-top: 72px; }
   @media (min-width: 320px) {
     .container {
-      max-width: 768px;
-      padding: 8px 8px; } }
+      max-width: 768px; } }
   @media (min-width: 768px) {
     .container {
-      max-width: 1024px;
-      width: 90%;
-      padding: 16px 24px;
-      margin: 30px auto 120px; } }
+      max-width: 1024px; } }
   @media (min-width: 1024px) {
     .container {
-      max-width: 1400px;
-      padding: 40px 32px 0; } }
+      max-width: 1400px; } }
   .container::-webkit-scrollbar {
     display: none; }
   .container .header-text {
     text-align: center;
     margin: 20px auto;
-    width: 80%;
-    padding: 32px 0;
+    width: 100%;
+    padding: 18px 0;
     border-bottom: 2px solid #f9f1f2; }
   .container .progress {
     position: absolute; }
@@ -147,18 +141,17 @@ header {
       background-color: #354649; }
 
 body .user-profile {
-  width: 90%;
+  width: 80%;
   padding: 8px;
   box-shadow: 0 0 15px 0 rgba(70, 72, 75, 0.2);
   background-color: #f9f4f2;
   border-radius: 15px;
-  margin: 30px auto; }
-  @media (min-width: 768px) {
-    body .user-profile {
-      margin: 60px auto; } }
+  margin: auto;
+  display: flex; }
   body .user-profile__image-wrapper {
     box-shadow: 0 0 15px 0 rgba(70, 72, 75, 0.2);
-    padding: 8px; }
+    padding: 8px;
+    width: 35%; }
     @media (min-width: 768px) {
       body .user-profile__image-wrapper {
         padding: 8px; } }
@@ -169,28 +162,35 @@ body .user-profile {
     display: block; }
     @media (min-width: 768px) {
       body .user-profile__profile-image {
-        max-width: 420px;
-        max-height: 420px; } }
+        max-width: 320px;
+        max-height: 320px; } }
+    body .user-profile__profile-image img {
+      width: 100%; }
   body .user-profile__profile-details {
-    width: 100%;
+    width: 60%;
     padding: 16px;
     text-align: center; }
   body .user-profile__button {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%; }
+    width: 100%;
+    margin-top: 40px; }
     body .user-profile__button button {
       width: 60%;
       background-color: #282c34;
       color: white;
       fill: white;
       border-radius: 5px; }
+      body .user-profile__button button:hover {
+        background-color: #354649; }
   body .user-profile__item {
     display: flex;
     align-items: center;
     justify-content: space-around;
-    position: relative; }
+    position: relative;
+    width: 60%;
+    margin: 0 auto; }
     @media (min-width: 768px) {
       body .user-profile__item {
         justify-content: center; } }
@@ -202,9 +202,9 @@ body .user-profile {
       font-size: 16px;
       line-height: 18px; }
     body .user-profile__item a {
-      margin-left: 16px; }
+      margin-left: 8px; }
     body .user-profile__item svg {
-      margin-right: 16px;
+      margin-right: 8px;
       margin-left: 0; }
   body .user-profile__error {
     margin: 64px 32px 16px;
@@ -234,7 +234,7 @@ body .login {
   @media (min-width: 768px) {
     body .login {
       width: 65%;
-      height: 65%; } }
+      height: 80%; } }
   body .login__container {
     padding: 12px 8px 20px;
     width: 90%;
@@ -376,27 +376,24 @@ body .alloy-table {
     flex-direction: column;
     justify-content: space-around; }
 
-body .alloys {
+body .home {
   height: 100%;
   width: 100%;
   padding: 0px;
   margin: 0 auto; }
-  @media (min-width: 768px) {
-    body .alloys {
-      margin: 60px auto; } }
-  body .alloys__container {
+  body .home__container {
     width: 100%;
     margin: 20px 0 90px;
     align-items: center;
     justify-content: center; }
-  body .alloys__item {
+  body .home__item {
     background-color: #fff;
     width: 100%;
     align-items: center;
     justify-content: center;
     padding: 12px 48px;
     cursor: default; }
-  body .alloys__text {
+  body .home__text {
     font-size: 20px;
     line-height: 24px;
     border: 1px solid rgba(70, 72, 75, 0.2);
@@ -407,9 +404,9 @@ body .alloys {
     width: 100%;
     background-color: rgba(113, 117, 117, 0.2); }
     @media (min-width: 768px) {
-      body .alloys__text {
+      body .home__text {
         width: 80%; } }
-    body .alloys__text ul {
+    body .home__text ul {
       text-align: left;
       font-size: 16px;
       margin: 32px 0; }

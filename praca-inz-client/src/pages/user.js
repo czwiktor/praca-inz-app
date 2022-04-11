@@ -22,8 +22,8 @@ class user extends Component {
     const { userData, loading } = this.props.data;
 
     return (
-      <Grid container spacing={16}>
-        <Typography variant="h2" className='header-text'>
+      <Grid container className="profile" spacing={16}>
+        <Typography variant="h4" className='header-text'>
           Profil użytkownika
         </Typography>
         <Grid xs={12}>

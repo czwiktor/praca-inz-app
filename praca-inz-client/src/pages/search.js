@@ -19,8 +19,6 @@ import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux';
 import { getSearchedAlloys, getProps, getElements } from '../redux/actions/dataActions';
 import { withStyles } from '@material-ui/core';
-import { MultiSelectUnstyled } from '@mui/base/SelectUnstyled';
-
 
 const styles = (theme) => ({
     ...theme.spreadIt
@@ -47,6 +45,8 @@ let params = {
     properties: []
 }
 
+let itemObj = {};
+
 export function MultipleSelectElements (elements, params) {
   const [elementName, setElementName] = React.useState([]);
   elements = elements.elements;
@@ -57,7 +57,7 @@ export function MultipleSelectElements (elements, params) {
       // On autofill we get a stringified value.
       typeof value === 'string' ? value.split(',') : value,
     );
-    this.setState({ params: { name: value } });
+    this.setState({ params: { composition: value } });
     console.log('elements selector' + params);
   };
 
@@ -99,7 +99,7 @@ export function MultipleSelectGroup (elements, params) {
         typeof value === 'string' ? value.split(',') : value,
       );
         
-      this.setState({ params: { name: value } });
+      this.setState({ params: { group: value } });
 
       console.log('group selector' + params);
     };
@@ -137,10 +137,19 @@ export function RangeSlider(prop) {
     const unit = property.prop_unit;
     const id = property.prop_id;
     const [value, setValue] = React.useState([0, 500]);
+    const [params, setProperties] = React.useState({
+      properties: {}
+    });
+    let test = React.useState();
   
     const handleChange = (event, newValue) => {
       setValue(newValue);
-      
+      itemObj[name] = newValue;
+
+      setProperties(itemObj);
+
+  
+      console.log(test);
     };
   
     return (
@@ -165,32 +174,25 @@ export function RangeSlider(prop) {
 class compQuery {
     constructor (query) {
         this.Al = {
-            min: query.Al.min,
-            max: query.Al.max
+            value: query.Al
         };
         this.Cu = {
-            min: query.Cu.min,
-            max: query.Cu.max
+            value: query.Cu
         };
         this.Fe = {
-            min: query.Fe.min,
-            max: query.Fe.max
+            value: query.Fe
         };
         this.Mg = {
-            min: query.Mg.min,
-            max: query.Mg.max
+            value: query.Mg
         };
         this.Ni = {
-            min: query.Ni.min,
-            max: query.Ni.max
+            value: query.Ni
         };
         this.Si = {
-            min: query.Si.min,
-            max: query.Si.max
+            value: query.Si
         };
         this.Zn = {
-            min: query.Zn.min,
-            max: query.Zn.max
+            value: query.Zn
         };
     }
 }
@@ -224,9 +226,9 @@ class search extends Component {
             propses: null,
             elements: null,
             params: {
-                group: '',
-                properties: [],
-                composition: []
+              group: '',
+              properties: [],
+              composition: []
             }
         };
     }
@@ -247,20 +249,27 @@ class search extends Component {
     render() {
         const { alloys, loading1, propses, loading2, elements, loading3 } = this.props.data;
         const { authenticated } = this.props.user;
+        const { access } = this.props.user;
 
         let count = alloys.length;
         const compString = 'composition';
         const propString = 'properties';
         const groupString = 'group';
 
-        const notAuthMarkup = (<> <div className="alert-modal"> <h2> Brak uprawnień. </h2>
-          <p> Zawartość dostępna tylko dla zalogowanych użytkowników, z odpowiednimi uprawnieniami. </p> </div> 
+        const notAuthMarkup = (<> <div className="alert-modal"> <h2> Uwaga </h2>
+          <p> Zawartość dostępna tylko dla zalogowanych użytkowników. </p> </div> 
+        </>);
+
+        const notAllowedMarkup = (<> <div className="alert-modal"> <h2> Brak uprawnień. </h2>
+          <p> Poproś  o poszerzenie dostępów lub zaloguj się na inne konto. </p> </div> 
         </>);
         
         let alloysMarkup = alloys.map((alloy) => <Grid item xs={12} md={4}> <Alloy key={alloy.id} alloy={alloy} /> </Grid> )
         let propsMarkup = propses.map((prop) => <Grid item xs={12} md={8}> <RangeSlider key={prop.id} prop={prop} /> </Grid> )
         let elementsMarkup = <Grid item xs={12} md={8}> <MultipleSelectElements elements={elements} named={compString} /> </Grid>
         let loading = loading1 && loading2 && loading3;
+        let allowedSearch = access ? access.search : '';
+        let allowedShowAll =  access ? access.showAll : '';
 
         let finalMarkup = !loading ? (
             authenticated ? (<>
@@ -299,9 +308,9 @@ class search extends Component {
                             variant="contained"
                             color="primary"
                             className='search-queries__button'
-                            disabled={loading}
+                            disabled={loading || !allowedSearch}
                             >
-                            Wyszukaj
+                            {allowedSearch ? 'Wyszukaj' : 'Brak uprawnień - Wyszukaj'}
                             {loading && (
                                 <CircularProgress size={30} className="progress" />
                             )}
@@ -312,9 +321,9 @@ class search extends Component {
                             variant="contained"
                             color="secondary"
                             className='search-queries__button'
-                            disabled={loading}
+                            disabled={loading || !allowedShowAll}
                             >
-                            Pokaż wszystkie
+                            {allowedShowAll ? 'Pokaż wszystkie' : 'Brak uprawnień - Pokaż wszystkie'}
                             {loading && (
                                 <CircularProgress size={30} className="progress" />
                             )}

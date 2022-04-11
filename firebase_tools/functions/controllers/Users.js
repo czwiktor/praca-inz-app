@@ -96,16 +96,32 @@ exports.login = (req, res) => {
 // Get any user's details
 exports.getUserDetails = (req, res) => {
     let userData = {};
+    let userRole;
     db
         .doc(`/users/${req.params.email}`)
         .get()
         .then((doc) => {
         if (doc.exists) {
             userData.user = doc.data();
-            return res.json(userData);
+            console.log(userData);
+            userRole = userData.user.role;
         } else {
             return res.status(404).json({ errror: "User not found" });
         }
+        })
+        .then(() => {
+            db
+            .doc(`/roles/${userRole}`)
+            .get()
+            .then((doc) => {
+                if (doc.exists) {
+                    userData.access = doc.data();
+                    console.log(userData + 'es');
+                    return res.json(userData);
+                } else {
+                    return res.status(404).json({ errror: "Missing roles!" });
+                }
+            })
         })
         .catch((err) => {
         console.error(err);
@@ -116,14 +132,30 @@ exports.getUserDetails = (req, res) => {
 // Get own user details
   exports.getAuthenticatedUser = (req, res) => {
     let userData = {};
+    let userRole;
     db.doc(`/users/${req.user.email}`)
       .get()
       .then((doc) => {
         if (doc.exists) {
           userData.credentials = doc.data();
-          return res.json(userData);
+          console.log(userData);
+          userRole = userData.credentials.role;
         }
       })
+      .then(() => {
+        db
+        .doc(`/roles/${userRole}`)
+        .get()
+        .then((doc) => {
+            if (doc.exists) {
+                userData.access = doc.data();
+                console.log(userData + 'ese');
+                return res.json(userData);
+            } else {
+                return res.status(404).json({ errror: "Missing roles!" });
+            }
+        })
+    })
       .catch((err) => {
         console.error(err);
         return res.status(500).json({ error: err.code });
