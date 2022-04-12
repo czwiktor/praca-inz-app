@@ -52,7 +52,7 @@ class AlloyDetails extends Component {
             }
         }
 
-                // instantiate the chart.
+        // instantiate the chart.
         var chartInstanceComp = new FusionCharts({
             type: "Column2D",
             renderAt: "chart-container", // div container where chart will render
@@ -87,10 +87,8 @@ class AlloyDetails extends Component {
             },
         });
   
-  
-
-        let propertiesMarkup = chartInstanceComp.render();
-        let compositionMarkup = chartInstanceProps.render();
+        let propertiesMarkup = chartInstanceComp;
+        let compositionMarkup = chartInstanceProps;
         
         return (
             <Container className="alloy-details">

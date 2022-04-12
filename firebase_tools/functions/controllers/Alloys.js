@@ -740,8 +740,8 @@ const resolveQueries = (alloys, compQuery, propQuery) => {
         composition = alloy.composition;
         props = alloy.props;
 
-        if (compQuery) {
-            propsNames = Object.keys(compQuery);
+        if (compQuery.length) {
+            propsNames = compQuery;
             let flag = false;
 
             for (let i = 0; i < propsNames.length; i++) {
@@ -757,7 +757,7 @@ const resolveQueries = (alloys, compQuery, propQuery) => {
             }
         }
 
-        if (propQuery) {
+        if (propQuery.length) {
             propsNames = Object.keys(propQuery);
             let flag = true;
 
@@ -779,23 +779,27 @@ const resolveQueries = (alloys, compQuery, propQuery) => {
 
     result = resultsFirst;
 
-    console.log(resultsSecond);
-
-    if (propQuery) {
+    if (propQuery.length) {
         result = resultsFirst.filter(x => resultsSecond.includes(x));
+    }
+
+    if (propQuery.length && !compQuery.length) {
+        result = resultsSecond;
     }
 
     return result;
 }
 
 exports.queryAlloys = (req, res) => {
+    request = req.body.length ? JSON.parse(req.body) : '';
     const queries = {
-        group: req.body.group,
-        composition: req.body.composition,
-        props: req.body.properties
+        group: request.group,
+        composition: request.composition,
+        props: request.properties
     };
 
     let result = [];
+ 
     const groupQuery = queries.group;
     const compQuery = queries.composition;
     const propQuery = queries.props;
@@ -827,7 +831,8 @@ exports.queryAlloys = (req, res) => {
                 } else {
                     result = resolveQueries(alloys, compQuery, propQuery);
                 }
-            
+                
+                console.log('test3' + result)
                 return res.json(result);
             })
             .catch((error) => console.error(error));

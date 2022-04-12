@@ -1,18 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
-import Alloy from '../components/Alloy';
 import Typography from '@material-ui/core/Typography';
 
 import { connect } from 'react-redux';
 import { getAlloys } from '../redux/actions/dataActions';
 import { withStyles } from '@material-ui/core';
-import Skeleton from '../components/Skeleton';
 
 const styles = (theme) => ({
     ...theme.spreadIt
-  });
+});
 
 class home extends Component {
     state = {
@@ -24,16 +21,6 @@ class home extends Component {
     }
 
     render() {
-
-        const { alloys, loading } = this.props.data;
-        const { authenticated } = this.props.user;
-
-        const notAuthMarkup = (<> <div className="alert-modal"> <h2> Brak uprawnień. </h2>
-            <p> Zawartość dostępna tylko dla zalogowanych użytkowników, z odpowiednimi uprawnieniami. </p> </div> 
-        </>);
-        
-        let alloysMarkup  = !loading ? authenticated  ? alloys.map((alloy) => <Grid className='home__item' item xs={12} md={6} lg={4}> <Alloy className='home__content' key={alloy.id} alloy={alloy} /> </Grid>) :  notAuthMarkup  : <Skeleton /> ;
-
         return (
             <Box className="home" sx={{ flexGrow: 1 }}>
                 <Typography variant="h2" className='header-text'>
