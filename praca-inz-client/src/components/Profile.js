@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import withStyles from '@material-ui/core/styles/withStyles';
 import { Link } from 'react-router-dom';
@@ -9,8 +9,7 @@ import ProfileSkeleton from './ProfileSkeleton';
 // MUI stuff
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import MuiLink from '@material-ui/core/Link';
-import Paper from '@material-ui/core/Paper';
+
 // Icons
 
 import NoImg from '../media/no-img.png';
@@ -21,7 +20,7 @@ import PersonIcon from '@mui/icons-material/Person';
 
 //Redux
 import { connect } from 'react-redux';
-import { logoutUser, getUserData } from '../redux/actions/userActions';
+import { logoutUser } from '../redux/actions/userActions';
 import { withRouter } from '../components/withRouter';
 
 const styles = (theme) => ({
@@ -36,7 +35,6 @@ class Profile extends Component {
 
   render() {
     const {
-      classes,
       user: {
         credentials: { email, role, createdAt, name },
         access,

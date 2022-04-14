@@ -731,23 +731,22 @@ class Alloy {
 const resolveQueries = (alloys, compQuery, propQuery) => {
     let result = [];
     let resultsSecond = [];
-    let queryName, alloyProp, queryProp, composition, props;
     let resultsFirst = [];
-    let alloy;
 
     alloys.forEach((data) => {
-        alloy = new Alloy(data.data());
-        composition = alloy.composition;
-        props = alloy.props;
+        let alloy = new Alloy(data.data());
+        let composition = alloy.composition;
+        let props = alloy.props;
 
-        if (compQuery.length) {
-            propsNames = compQuery;
+        if (compQuery && compQuery.length) {
+            let propsNames = compQuery;
             let flag = false;
 
             for (let i = 0; i < propsNames.length; i++) {
-                queryName = propsNames[i];
-                alloyProp = composition[queryName];
-                if (alloyProp > 0) {
+                let queryName = propsNames[i];
+                let alloyComp = composition[queryName];
+
+                if (alloyComp > 0) {
                    flag = true;
                 }
             }
@@ -757,33 +756,37 @@ const resolveQueries = (alloys, compQuery, propQuery) => {
             }
         }
 
-        if (propQuery.length) {
-            propsNames = Object.keys(propQuery);
+        if (propQuery) {
+            let propsNames = Object.keys(propQuery);
+
             let flag = true;
-
-            for (let j = 0; j < propsNames.length; j++) {
-                queryName = propsNames[j];
-                alloyProp = props[queryName];
-                queryProp = propQuery[queryName];
-            
-                if (alloyProp < queryProp['min'] || alloyProp > queryProp['max']) {
-                    flag = false;
+            if (propsNames.length) {
+                for (let j = 0; j < propsNames.length; j++) {
+                    let queryName = propsNames[j];
+                    let alloyProp = props[queryName];
+                    let queryProp = propQuery[queryName];
+                
+                    if (alloyProp < queryProp['min'] || alloyProp > queryProp['max']) {
+                        flag = false;
+                    }
+    
+                    if (flag) {
+                        resultsSecond.push(alloy);
+                    }
                 }
-
-                if (flag) {
-                    resultsSecond.push(alloy);
-                }
+            } else {
+                propQuery = false;
             }
         }
     })
 
     result = resultsFirst;
 
-    if (propQuery.length) {
+    if (propQuery) {
         result = resultsFirst.filter(x => resultsSecond.includes(x));
     }
 
-    if (propQuery.length && !compQuery.length) {
+    if (propQuery && (!compQuery || !compQuery.length)) {
         result = resultsSecond;
     }
 
@@ -791,7 +794,9 @@ const resolveQueries = (alloys, compQuery, propQuery) => {
 }
 
 exports.queryAlloys = (req, res) => {
-    request = req.body.length ? JSON.parse(req.body) : '';
+    var isNotEmpty = req.body ? req.body : false;
+    var request = isNotEmpty ? req.body : '';
+
     const queries = {
         group: request.group,
         composition: request.composition,
@@ -804,7 +809,7 @@ exports.queryAlloys = (req, res) => {
     const compQuery = queries.composition;
     const propQuery = queries.props;
 
-    if (groupQuery && groupQuery.length) {
+    if (false) {
         queriedByGroup = true;
         db
             .collection('alloys')
@@ -822,17 +827,16 @@ exports.queryAlloys = (req, res) => {
             .get()
             .then((query) => {
                 let alloys = query;
-                if (!compQuery && !propQuery) {
+                if ((!compQuery.length && !Object.keys(propQuery).length)) {
                     let alloy;
                     query.forEach((doc) => {
                         alloy = new Alloy(doc.data());
-                        result.push(alloy )
+                        result.push(alloy)
                     })
                 } else {
                     result = resolveQueries(alloys, compQuery, propQuery);
                 }
                 
-                console.log('test3' + result)
                 return res.json(result);
             })
             .catch((error) => console.error(error));

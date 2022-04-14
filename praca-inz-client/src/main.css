@@ -15,7 +15,7 @@ html, body {
   background-color: #f9f4f2; }
   @media (min-width: 768px) {
     #root {
-      height: 92vh; } }
+      height: calc(100vh - 70px); } }
   #root .nav-container__btn {
     box-shadow: 0 0 15px 0 rgba(70, 72, 75, 0.3), 0 0 8px 0 rgba(70, 72, 75, 0.3);
     min-width: 40px;

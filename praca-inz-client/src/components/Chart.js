@@ -1,37 +1,61 @@
-import FusionCharts from "fusioncharts/core";
+import React, { PureComponent } from 'react';
+import { PieChart, Pie, Cell} from 'recharts';
 
-// include chart from viz folder - import ChartType from fusioncharts/viz/[ChartType];
-import Column2D from "fusioncharts/viz/column2d";
+const data = [
+  { name: 'Group A', value: 400 },
+  { name: 'Group B', value: 300 },
+  { name: 'Group C', value: 300 },
+  { name: 'Group D', value: 200 },
+];
+const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
-// add chart as dependency - FusionCharts.addDep(ChartType);
-FusionCharts.addDep(Column2D);
+export class Chart extends PureComponent {
+  render() {
 
-// instantiate the chart.
-var chartInstance = new FusionCharts({
-  type: "Column2D",
-  renderAt: "chart-container", // div container where chart will render
-  width: "600",
-  height: "400",
-  dataFormat: "json",
-  dataSource: {
-    // chart configuration
-    chart: {
-      caption: "Countries With Most Oil Reserves [2017-18]",
-      subcaption: "In MMbbl = One Million barrels",
-    },
-    // chart data
-    data: [
-      { label: "Venezuela", value: "290000" },
-      { label: "Saudi", value: "260000" },
-      { label: "Canada", value: "180000" },
-      { label: "Iran", value: "140000" },
-      { label: "Russia", value: "115000" },
-      { label: "UAE", value: "100000" },
-      { label: "US", value: "30000" },
-      { label: "China", value: "30000" },
-    ],
-  },
-});
+    const {attribute} = this.props;
+    const data = [];
+    const others = {
+      name: 'Inne',
+      value: 0
+    };
 
-// render the chart
-chartInstance.render();
+    if (attribute) {
+      for (let [key, value] of Object.entries(attribute)) {
+        let obj = {
+          name: key,
+          value: value
+        };
+  
+        if (parseFloat(value) / 100 >= 0.005) {
+          data.push(obj);
+        } else {
+          others.value += value;
+        }
+      };
+
+      data.push(others);
+    }
+
+
+    return (
+      <PieChart width={800} height={400} onMouseEnter={this.onPieEnter}>
+        <Pie
+          data={data}
+          cx={'50%'}
+          cy={'50%'}
+          innerRadius={0}
+          outerRadius={200}
+          labelLine={true}
+          label
+          fill="#8884d8"
+          paddingAngle={1}
+          dataKey="value"
+        >
+          {data.map((entry, index) => (
+            <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+          ))}
+        </Pie>
+      </PieChart>
+    );
+  }
+}

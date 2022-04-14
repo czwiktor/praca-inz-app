@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Grid from '@material-ui/core/Grid';
-import Box from '@material-ui/core/Box';
 import { withRouter } from '../components/withRouter';
 
 import Typography from '@material-ui/core/Typography';
@@ -23,15 +21,15 @@ const notAuthMarkup = (<> <div className="alert-modal"> <h2> Brak uprawnień. </
 class details extends Component {
     constructor(props) {
         super(props);
-    }
+    };
 
     state = {
         alloy: null
-    }
+    };
 
     componentDidMount () {
         this.props.getAlloy(this.props.params.alloy_name);
-    }
+    };
     
     render() {
         const { alloy, loading } = this.props.data;
@@ -46,7 +44,7 @@ class details extends Component {
                 {authenticated ? alloyMarkup : notAuthMarkup}
             </>
         );
-    }
+    };
 }
 
 details.propTypes = {

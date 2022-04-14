@@ -9,12 +9,10 @@ import { Paper } from '@material-ui/core';
 
 export default function BasicTable (attr) {
 
-  const atrib = attr.attr[0];
-  const rows = [];
-
-  if (typeof atrib != 'undefined') {
-    rows.push(atrib);
-  }
+  const atrib = attr.attr;
+  let rows = [];
+  
+  rows.push(atrib);
 
   if (rows.length) {
     const property = rows[0];
