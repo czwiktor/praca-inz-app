@@ -10,7 +10,7 @@ body .search {
         width: 90%;
         margin: 30px auto 0;
     
-        padding: 8px;
+        padding: 0;
     
         h1 {
             margin-bottom: 24px;
@@ -80,11 +80,12 @@ body .search {
             @include breakpoint(medium) {
                 width: 70%;
                 padding: 32px 16px;
+                    
+                &:not(:last-child) {
+                    margin-right: 30px;
+                }
             }
-    
-            &:not(:last-child) {
-                margin-right: 30px;
-            }
+
         }
     
         &__button {

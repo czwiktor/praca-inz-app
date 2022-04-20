@@ -24,6 +24,8 @@ body .alloy-details {
     body .alloy-details__text-item:last-child {
       margin-left: auto;
       text-align: right; }
+  body .alloy-details__elements {
+    margin-bottom: 50px; }
 
 body .alloy-table {
   padding: 4px;
@@ -42,6 +44,8 @@ body .alloy-table {
     align-items: center;
     flex-direction: column;
     justify-content: space-around; }
+  body .alloy-table__item {
+    background-color: #f9f4f2; }
 
 body .home {
   height: 100%;

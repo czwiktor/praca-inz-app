@@ -13,11 +13,10 @@ import ListItemText from '@mui/material/ListItemText';
 import Select from '@mui/material/Select';
 import Checkbox from '@mui/material/Checkbox';
 import Button from '@material-ui/core/Button';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography';
 
 import { connect } from 'react-redux';
-import { getSearchedAlloys, getProps, getElements } from '../redux/actions/dataActions';
+import { getSearchedAlloys, getProps, getElements, getGroups } from '../redux/actions/dataActions';
 import { withStyles } from '@material-ui/core';
 
 const styles = (theme) => ({
@@ -40,7 +39,7 @@ const MenuProps = {
 };
 
 let params = {
-  group: [],
+  groups: [],
   properties: {},
   composition: []
 }
@@ -50,7 +49,7 @@ function MultipleSelectElements (elements) {
   let elems = elements.elements;
     
   const handleChange = (event) => {
-    const { target: { name, value } } = event;
+    const { target: { value } } = event;
     setElementName(
       // On autofill we get a stringified value.
       typeof value === 'string' ? value.split(',') : value,
@@ -86,18 +85,18 @@ function MultipleSelectElements (elements) {
   );
 }
 
-function MultipleSelectGroup (elements) {
-  const [elementName, setElementName] = React.useState([]);
-  elements = elements.elements;
+function MultipleSelectGroup (groups) {
+  const [groupName, setElementName] = React.useState([]);
+  groups = groups.groups;
     
   const handleChange = (event) => {
-    const { target: { name, value } } = event;
+    const { target: { value } } = event;
     setElementName(
       // On autofill we get a stringified value.
       typeof value === 'string' ? value.split(',') : value,
     );
 
-    params.group = value;
+    params.groups = value;
   };
 
   return (
@@ -109,16 +108,16 @@ function MultipleSelectGroup (elements) {
           id="demo-multiple-checkbox"
           name='group'
           multiple
-          value={elementName}
+          value={groupName}
           onChange={handleChange}
           input={<OutlinedInput label="Grupy stopów" />}
           renderValue={(selected) => selected.join(', ')}
           MenuProps={MenuProps}
         >
-          {elements.map((element) => (
-            <MenuItem key={element.element_id} value={element.name_short}>
-              <Checkbox checked={elementName.indexOf(element.name_short) > -1} />
-              <ListItemText primary={element.name_long} />
+          {groups.map((element) => (
+            <MenuItem key={element.id} value={element.name}>
+              <Checkbox checked={groupName.indexOf(element.name) > -1} />
+              <ListItemText primary={element.name} />
             </MenuItem>
           ))}
         </Select>
@@ -156,6 +155,7 @@ function RangeSlider (prop) {
         key={id}
         getAriaLabel={() => `${name}`}
         value={value}
+        max={500}
         onChange={handleChange}
         valueLabelDisplay="auto"
         getAriaValueText={valuetext}
@@ -171,25 +171,32 @@ class search extends Component {
         alloys: null,
         propses: null,
         elements: null,
-        group: null
+        groups: null
       };
     }
 
     componentDidMount () {
-      this.props.getSearchedAlloys();
       this.props.getProps();
       this.props.getElements();
+      this.props.getGroups();
     }
 
     handleSubmit = (event) => {
       event.preventDefault();
+      if (!params.composition.length && !params.groups.length && !Object.keys(params.properties).length) {
+        return;
+      }
 
-      console.log(params);
       this.props.getSearchedAlloys(params);
     };
 
+    handleSubmitAll = (event) => {
+      event.preventDefault();
+      this.props.getSearchedAlloys();
+    };
+
     render() {
-      const { alloys, loading1, propses, loading2, elements, loading3 } = this.props.data;
+      const { alloys, loading, propses, loadingProps, elements, loadingElements, groups, loadingGroups } = this.props.data;
       const { authenticated, access } = this.props.user;
       const count = alloys.length;
       const compString = 'composition';
@@ -202,94 +209,84 @@ class search extends Component {
       const notAllowedMarkup = (<> <div className="alert-modal"> <h2> Brak uprawnień. </h2>
         <p> Poproś  o poszerzenie dostępów lub zaloguj się na inne konto. </p> </div> 
       </>);
-      let loading = loading1 && loading2 && loading3;
-      let allowedSearch = access ? access.search : '';
-      let allowedShowAll =  access ? access.showAll : '';
-      
-      let alloysMarkup = alloys.map((alloy) => <Grid item xs={12} md={4}> <Alloy key={alloy.id} alloy={alloy} /> </Grid> )
 
-      let propsMarkup = propses.map((prop) => <Grid item xs={12} md={8}> <RangeSlider key={prop.id} prop={prop} named={propString} /> </Grid> )
-      let elementsMarkup = <Grid item xs={12} md={8}> <MultipleSelectElements elements={elements} named={compString} /> </Grid>
-      let groupMarkup = <Grid item xs={12} md={8}> <MultipleSelectGroup elements={elements} named={groupString} /> </Grid>
+      let allowedSearch = access ? access.search  : '';
+      let allowedShowAll =  access ? access.seeAll  : '';
+
+      let alloysMarkup = !loading ? alloys.map((alloy) => <Grid item xs={12} md={4}> <Alloy key={alloy.id} alloy={alloy} /> </Grid>)  : <Skeleton /> 
+
+      let propsMarkup = !loadingProps ? propses.map((prop) => <Grid item xs={12} md={8}> <RangeSlider key={prop.id} prop={prop} named={propString} /> </Grid> )  : <Skeleton /> 
+      let elementsMarkup = !loadingElements ? <Grid item xs={12} md={8}> <MultipleSelectElements elements={elements} named={compString} /> </Grid>  : <Skeleton /> 
+      let groupMarkup = !loadingGroups ? <Grid item xs={12} md={8}> <MultipleSelectGroup groups={groups} named={groupString} /> </Grid>  : <Skeleton /> 
       
-      let finalMarkup = !loading ? (
-          authenticated ? (<>
+      let finalMarkup = authenticated ? <>
               <div className="search-queries">
-                  <Typography variant="h2" className='header-text'>
-                      Wyszukiwanie stopów aluminium
-                  </Typography>
-                  <h1> Kryteria wyszukiwania: </h1>
-                  <div className="search-queries__item">
-                      <h2> Właściwości mechaniczne </h2>
-                      <div className="search-queries__selects">
-                          {propsMarkup}
-                      </div>
+                <Typography variant="h2" className='header-text'>
+                    Wyszukiwanie stopów aluminium
+                </Typography>
+                <h1> Kryteria wyszukiwania: </h1>
+                <div className="search-queries__item">
+                    <h2> Właściwości mechaniczne </h2>
+                    <div className="search-queries__selects">
+                        {propsMarkup}
+                    </div>
+                    <span className="search-queries__help"> W przypadku nie wybrania żadnego z elementów, kryterium jest pomijane </span>
+                </div>
+                <div className="search-queries__item">
+                    <h2> Występowanie pierwiastków chemicznych </h2>
+                    <div className="search-queries__selects">
+                        {elementsMarkup}
+                    </div>
+                    <span className="search-queries__help"> W przypadku nie wybrania żadnego z elementów, kryterium jest pomijane </span>
+                </div>
+                <div className="search-queries__item">
+                    <h2> Grupy stopów </h2>
+                    <div className="search-queries__selects">
+                        {groupMarkup}
+                    </div>
+                    <span className="search-queries__help"> W przypadku nie wybrania żadnego z elementów, kryterium jest pomijane </span>
+                </div>
+                <div className="search-queries__form">
+                    <form noValidate onSubmit={this.handleSubmit}>
+                        <Button
+                        type="submit"
+                        variant="contained"
+                        color="primary"
+                        className='search-queries__button'
+                        disabled={loading || !allowedSearch}
+                        >
+                        {allowedSearch ? 'Wyszukaj' : 'Brak uprawnień - Wyszukaj'}
+                        </Button>
+                    </form>
 
-                      <span className="search-queries__help"> W przypadku nie wybrania żadnego z elementów, kryterium jest pomijane </span>
-                  </div>
-                  <div className="search-queries__item">
-                      <h2> Występowanie pierwiastków chemicznych </h2>
-                      <div className="search-queries__selects">
-                          {elementsMarkup}
-                      </div>
-
-                      <span className="search-queries__help"> W przypadku nie wybrania żadnego z elementów, kryterium jest pomijane </span>
-                  </div>
-                  <div className="search-queries__item">
-                      <h2> Grupy stopów </h2>
-                      <div className="search-queries__selects">
-                          {groupMarkup}
-                      </div>
-                      <span className="search-queries__help"> W przypadku nie wybrania żadnego z elementów, kryterium jest pomijane </span>
-                  </div>
-                  <div className="search-queries__form">
-                      <form noValidate onSubmit={this.handleSubmit}>
-                          <Button
-                          type="submit"
-                          variant="contained"
-                          color="primary"
-                          className='search-queries__button'
-                          disabled={loading || !allowedSearch}
-                          >
-                          {allowedSearch ? 'Wyszukaj' : 'Brak uprawnień - Wyszukaj'}
-                          {loading && (
-                              <CircularProgress size={30} className="progress" />
-                          )}
-                          </Button>
-
-                          <Button
-                          type="submit"
-                          variant="contained"
-                          color="secondary"
-                          className='search-queries__button'
-                          disabled={loading || !allowedShowAll}
-                          >
-                          {allowedShowAll ? 'Pokaż wszystkie' : 'Brak uprawnień - Pokaż wszystkie'}
-                          {loading && (
-                              <CircularProgress size={30} className="progress" />
-                          )}
-                          </Button>
-                      </form>
-                  </div>
-              </div>
-              <div className="search-results">
-                  <div className="search-results__header">
-                      <h1> Wyniki wyszukiwania ({count}): </h1>
-                  </div>
-                  <Grid container spacing={5}>
-                      {alloysMarkup}
-                  </Grid>
-              </div>
-              
-          </>)
+                    <form noValidate onSubmit={this.handleSubmitAll}>
+                        <Button
+                        type="submit"
+                        variant="contained"
+                        color="secondary"
+                        className='search-queries__button'
+                        disabled={loading || !allowedShowAll}
+                        >
+                        {allowedShowAll ? 'Pokaż wszystkie' : 'Brak uprawnień - Pokaż wszystkie'}
+                        </Button>
+                    </form>
+                </div>
+            </div>
+            <div className="search-results">
+                <div className="search-results__header">
+                    <h1> Wyniki wyszukiwania ({count}): </h1>
+                </div>
+                <Grid container spacing={5}>
+                    {alloysMarkup}
+                </Grid>
+            </div>
+          </>
           : notAuthMarkup
-      ) : ( 
-          <Skeleton /> 
-      );
+      ;
 
       return (
         <Box className="search" sx={{ flexGrow: 1 }}>
-            {finalMarkup}
+            {allowedSearch ? finalMarkup : notAllowedMarkup}
         </Box>
       );
     }
@@ -299,6 +296,7 @@ search.propTypes = {
   getProps: PropTypes.func.isRequired,
   getSearchedAlloys: PropTypes.func.isRequired,
   getElements: PropTypes.func.isRequired,
+  getGroups: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
 };
 
@@ -307,6 +305,7 @@ const mapStateToProps = (state) => ({
   composition: state.composition,
   properties: state.properties,
   propses: state.propses,
+  groups: state.groups,
   data: state.data,
   user: state.user,
   authenticated: state.user.authenticated
@@ -315,6 +314,7 @@ const mapStateToProps = (state) => ({
 const mapActionsToProps = {
   getSearchedAlloys,
   getElements,
+  getGroups,
   getProps
 };
 

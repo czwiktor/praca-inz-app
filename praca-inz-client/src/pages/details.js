@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withRouter } from '../components/withRouter';
 
-import Typography from '@material-ui/core/Typography';
 import AlloyDetails from '../components/AlloyDetails';
 import Skeleton from '../components/Skeleton';
 

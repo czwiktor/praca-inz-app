@@ -5,18 +5,12 @@ import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
 // import dayjs from 'dayjs';
 import MyButton from '../util/MyButton';
-import ProfileSkeleton from './ProfileSkeleton';
 // MUI stuff
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 
-// Icons
-
+// Img
 import NoImg from '../media/no-img.png';
-
-import LinkIcon from '@mui/icons-material/Link';
-import EngineeringIcon from '@mui/icons-material/Engineering';
-import PersonIcon from '@mui/icons-material/Person';
 
 //Redux
 import { connect } from 'react-redux';
@@ -38,7 +32,6 @@ class Profile extends Component {
       user: {
         credentials: { email, role, createdAt, name },
         access,
-        loading,
         authenticated
       }
     } = this.props;
@@ -46,11 +39,11 @@ class Profile extends Component {
     let accessMarkup = [];
     if (access) {
       for (let [key, value] of Object.entries(access)) {
-        if (key != 'id') accessMarkup.push(` ${key} = ${value ? 'Tak' : 'Nie'}`)
+        if (key !== 'id') accessMarkup.push(` ${key} = ${value ? 'Tak' : 'Nie'}`)
       };
     }
 
-    let profileMarkup = !loading ? (
+    let profileMarkup =
       authenticated ? (
         <div className='user-profile'>
             <div className="user-profile__image-wrapper">
@@ -59,20 +52,20 @@ class Profile extends Component {
             <hr />
             <div className="user-profile__profile-details">
               <div className="user-profile__item">
-                <LinkIcon/> <Typography variant="body2">  E-mail:  </Typography>
+                <Typography variant="body2">  E-mail:  </Typography>
                 <a href={`mailto:${email}`} variant="h5">
                   {email}
                 </a>
               </div>
               <hr />
               <div className="user-profile__item">
-                {name && <Typography variant="body2"> <PersonIcon/> Nazwa użytkownika: {name}</Typography>}
+                {name && <Typography variant="body2"> Nazwa użytkownika: {name}</Typography>}
               </div>
               <hr />
               <div className="user-profile__item">
                 {role && (
                   <Typography variant="body2">
-                    <EngineeringIcon /> Rola: {role}
+                    Rola: {role}
                   </Typography>
                 )}
               </div>
@@ -118,10 +111,6 @@ class Profile extends Component {
           </div>
         </div>
       )
-    ) : (
-      <ProfileSkeleton />
-    );
-
     return profileMarkup;
   }
 }

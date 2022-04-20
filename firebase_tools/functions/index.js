@@ -3,7 +3,7 @@ const app  = require('express')();
 const FBAuth = require('./scripts/auth');
 
 // Functions imports
-const { getAllAlloys, addAlloy, addAllAlloys, getAlloy, queryAlloys, getAllProperties, getAllElements } = require('./controllers/Alloys');
+const { getAllAlloys, addAlloy, addAllAlloys, getAlloy, queryAlloys, getAllProperties, getAllElements, getAllGroups } = require('./controllers/Alloys');
 const { register, login, getUserDetails, getAuthenticatedUser } = require('./controllers/Users');
 
 const cors = require('cors');
@@ -18,6 +18,9 @@ app.get('/getProps', FBAuth, getAllProperties);
 
 // Get all elements
 app.get('/getElements', FBAuth, getAllElements);
+
+// Get all groups
+app.get('/getGroups', FBAuth, getAllGroups);
 
 // Add an alloy
 app.get('/showDetails/:alloy_name', FBAuth, getAlloy);

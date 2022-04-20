@@ -9,13 +9,19 @@ body .user-profile {
     border-radius: 15px;
     margin: auto;
     display: flex;
+    flex-direction: column;
+
+    @include breakpoint(medium) {
+        flex-direction: row;
+    }
 
     &__image-wrapper {
         box-shadow: 0 0 15px 0 $shadow-light;
         padding: 8px;
-        width: 35%;
+        width: 100%;
         @include breakpoint(medium) {
             padding: 8px;
+            width: 35%;
         }
     }
 
@@ -36,9 +42,12 @@ body .user-profile {
     }
 
     &__profile-details {
-        width: 60%;
+        width: 100%;
         padding: 16px;
         text-align: center;
+        @include breakpoint(medium) {
+            width: 60%;
+        }
     }
 
     &__button {
@@ -66,11 +75,12 @@ body .user-profile {
         align-items: center;
         justify-content: space-around;
         position: relative;
-        width: 60%;
+        width: 100%;
         margin: 0 auto;
 
         @include breakpoint(medium) {
             justify-content: center;
+            width: 60%;
         }
 
         p, 
@@ -90,6 +100,11 @@ body .user-profile {
         svg {
             margin-right: 8px;
             margin-left: 0;
+        }
+
+        ul {
+            padding: 0;
+            margin: 0;
         }
     }
 

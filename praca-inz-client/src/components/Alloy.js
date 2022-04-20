@@ -35,19 +35,15 @@ const classes = {
 
 class Alloy extends Component {
     render() {
-        const { alloy: {id, name, group} } = this.props;
+        const { alloy: {id, name} } = this.props;
 
         return (
-            <Card xs={{ maxWidth: 320}} sm={{maxWidth: 420}} md={{ maxWidth: 768}} className={classes.container}>
+            <Card key={id} xs={{ maxWidth: 320}} sm={{maxWidth: 420}} md={{ maxWidth: 768}} className={classes.container}>
                 <CardContent className={classes.content}>
                     <Typography gutterBottom variant="h4" component="div">
                         {name}
                     </Typography>
                     <Typography variant="body2">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-                      sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 
-                      quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-                      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
                     </Typography>
                 </CardContent>
                 <CardActions>

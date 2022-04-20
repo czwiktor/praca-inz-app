@@ -1,7 +1,6 @@
 import React, { Component} from "react";
 import { Typography } from "@material-ui/core";
 import { Container } from '@material-ui/core';
-import { Chart } from './Chart';
 import TableProps from './TableProps';
 import TableElements  from './TableElements';
 
@@ -43,10 +42,12 @@ class AlloyDetails extends Component {
             }
         }
 
-        // instantiate the chart.
-        const chartInstanceComp = <TableProps attr={props} />;
+        const chartInstanceComp = <div className="alloy-details__elements"> 
+        <Typography className="alloy-details__text-item" variant="h2"> <b> Własności mechaniczne stopu: </b> </Typography>
+        <TableProps attr={props} />
+        </div>;
         const chartInstanceProps = <div className="alloy-details__elements"> 
-            <Chart attribute={composition} />
+            <Typography className="alloy-details__text-item" variant="h2"> <b> Zawartość pierwiastków w stopie:  </b> </Typography>
             <TableElements attr={composition} />
         </div>
   
@@ -60,7 +61,7 @@ class AlloyDetails extends Component {
                 </Typography>
                 <div className={classes.alloyText}> 
                     <Typography className="alloy-details__text-item" variant="h2"> <b> Nazwa stopu:  </b> {alloy.name} </Typography>
-                    <Typography className="alloy-details__text-item" variant="h4"> <b> Grupa stopów: </b> Lorem ipsum dolor sit amet {alloy.group} </Typography>
+                    <Typography className="alloy-details__text-item" variant="h2"> <b> Grupa stopów: </b> {alloy.group} </Typography>
                     <Typography className="alloy-details__text-item" variant="body2"> <b> Autor: </b> {alloy.author} </Typography>
                 </div>
                 <div className={classes.alloyAccordions}> 

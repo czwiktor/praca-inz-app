@@ -7,15 +7,21 @@ html, body {
     font-weight: 400;
     line-height: 18px;
     letter-spacing: .2px;
+    box-sizing: border-box;
+}
+
+body {
     width: 100%;
     height: 100%;
-    box-sizing: border-box;
+    padding: 0;
+    margin: 0 auto;
 }
 
 #root {
     width: 100%;
-    height: 90vh;
+    height: 93vh;
     display: block;
+    padding: 0;
     position: relative;
     background-color: $background-light;
     @include breakpoint(medium) {
@@ -107,6 +113,7 @@ header {
     box-shadow: 0 0 15px 0 $shadow-light, 0 0 8px 0 $shadow-light;
     margin: 0 auto;
     padding-top: 72px;
+
     @include breakpoint(small) {
         max-width: 768px;
     }

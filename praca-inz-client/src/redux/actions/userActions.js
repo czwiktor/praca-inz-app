@@ -14,6 +14,8 @@ export const loginUser = (userData, history) => (dispatch) => {
     .post('/login', userData)
     .then((res) => {
       setAuthorizationHeader(res.data.token);
+    })
+    .then((res) => {
       dispatch(getUserData());
       dispatch({ type: CLEAR_ERRORS });
     })
@@ -34,6 +36,8 @@ export const signupUser = (newUserData, history) => (dispatch) => {
     .post('/register', newUserData)
     .then((res) => {
       setAuthorizationHeader(res.data.token);
+    })
+    .then((res) => {
       dispatch(getUserData());
       dispatch({ type: CLEAR_ERRORS });
     })

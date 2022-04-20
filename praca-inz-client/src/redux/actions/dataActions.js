@@ -5,9 +5,12 @@ import {
   CLEAR_ERRORS,
   LOADING_UI,
   SET_DATA,
+  SET_GROUPS,
   SET_ALLOY,
   SET_ELEMS,
-  STOP_LOADING_UI
+  LOADING_ELEMS,
+  LOADING_GROUPS,
+  LOADING_PROPS
 } from '../types';
 import axios from 'axios';
 
@@ -51,7 +54,7 @@ export const getSearchedAlloys = (body) => (dispatch) => {
 
 // Get all props
 export const getProps = () => (dispatch) => {
-  dispatch({ type: LOADING_DATA });
+  dispatch({ type: LOADING_PROPS });
   axios
     .get('/getProps')
     .then((res) => {
@@ -69,8 +72,27 @@ export const getProps = () => (dispatch) => {
 };
 
 // Get all props
+export const getGroups = () => (dispatch) => {
+  dispatch({ type: LOADING_GROUPS });
+  axios
+    .get('/getGroups')
+    .then((res) => {
+      dispatch({
+        type: SET_GROUPS,
+        payload: res.data
+      });
+    })
+    .catch((err) => {
+      dispatch({
+        type: SET_GROUPS,
+        payload: []
+      });
+    });
+};
+
+// Get all props
 export const getElements = () => (dispatch) => {
-  dispatch({ type: LOADING_DATA });
+  dispatch({ type: LOADING_ELEMS });
   axios
     .get('/getElements')
     .then((res) => {

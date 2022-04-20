@@ -5,7 +5,7 @@ body .search {
     margin-top: 30px;
     width: 90%;
     margin: 30px auto 0;
-    padding: 8px; }
+    padding: 0; }
     body .search .search-results h1 {
       margin-bottom: 24px; }
   body .search .search-queries {
@@ -57,9 +57,9 @@ body .search {
       @media (min-width: 768px) {
         body .search .search-queries__item {
           width: 70%;
-          padding: 32px 16px; } }
-      body .search .search-queries__item:not(:last-child) {
-        margin-right: 30px; }
+          padding: 32px 16px; }
+          body .search .search-queries__item:not(:last-child) {
+            margin-right: 30px; } }
     body .search .search-queries__button {
       width: 100%;
       font-size: 16px;

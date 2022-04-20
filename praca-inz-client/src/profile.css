@@ -5,14 +5,19 @@ body .user-profile {
   background-color: #f9f4f2;
   border-radius: 15px;
   margin: auto;
-  display: flex; }
+  display: flex;
+  flex-direction: column; }
+  @media (min-width: 768px) {
+    body .user-profile {
+      flex-direction: row; } }
   body .user-profile__image-wrapper {
     box-shadow: 0 0 15px 0 rgba(70, 72, 75, 0.2);
     padding: 8px;
-    width: 35%; }
+    width: 100%; }
     @media (min-width: 768px) {
       body .user-profile__image-wrapper {
-        padding: 8px; } }
+        padding: 8px;
+        width: 35%; } }
   body .user-profile__profile-image {
     max-width: 200px;
     max-height: 200px;
@@ -25,9 +30,12 @@ body .user-profile {
     body .user-profile__profile-image img {
       width: 100%; }
   body .user-profile__profile-details {
-    width: 60%;
+    width: 100%;
     padding: 16px;
     text-align: center; }
+    @media (min-width: 768px) {
+      body .user-profile__profile-details {
+        width: 60%; } }
   body .user-profile__button {
     display: flex;
     align-items: center;
@@ -47,11 +55,12 @@ body .user-profile {
     align-items: center;
     justify-content: space-around;
     position: relative;
-    width: 60%;
+    width: 100%;
     margin: 0 auto; }
     @media (min-width: 768px) {
       body .user-profile__item {
-        justify-content: center; } }
+        justify-content: center;
+        width: 60%; } }
     body .user-profile__item p,
     body .user-profile__item a {
       display: flex;
@@ -64,6 +73,9 @@ body .user-profile {
     body .user-profile__item svg {
       margin-right: 8px;
       margin-left: 0; }
+    body .user-profile__item ul {
+      padding: 0;
+      margin: 0; }
   body .user-profile__error {
     margin: 64px 32px 16px;
     font-size: 20px;

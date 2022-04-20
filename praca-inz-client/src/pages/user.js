@@ -19,7 +19,7 @@ class user extends Component {
   }
 
   render() {
-    const { userData, loading } = this.props.data;
+    const { userData } = this.props.data;
 
     return (
       <Grid container className="profile" spacing={16}>
@@ -27,11 +27,7 @@ class user extends Component {
           Profil użytkownika
         </Typography>
         <Grid xs={12}>
-          {userData === null ? (
-            ''
-          ) : (
-            <Profile props={userData} />
-          )}
+          <Profile props={userData} />
         </Grid>
       </Grid>
     );

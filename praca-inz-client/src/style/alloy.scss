@@ -37,6 +37,10 @@ body .alloy-details {
             text-align: right;
         }
     }
+
+    &__elements {
+        margin-bottom: 50px;
+    }
 }
 
 body .alloy-table {
@@ -61,6 +65,10 @@ body .alloy-table {
         align-items: center;
         flex-direction: column;
         justify-content: space-around;
+    }
+
+    &__item { 
+        background-color:  $background-light;
     }
 }
 

@@ -20,7 +20,8 @@ export default function BasicTable (attr) {
     const keys = Object.keys(property);
     const values = Object.values(property);
 
-    let printColumns = property != null ? keys.map((key) => <TableCell align="center"> {key} </TableCell> ) : '';
+    const units = ['[MPa]', '[MPa]', '[%]', ''];
+    let printColumns = property != null ? keys.map((key, index) => <TableCell align="center"> {key} {units[index]} </TableCell> ) : '';
     let printRows = property != null ? values.map((val) => <TableCell align="center"> {val} </TableCell> ) : '';
 
     return (
